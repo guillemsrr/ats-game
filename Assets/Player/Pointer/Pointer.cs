@@ -8,13 +8,14 @@ namespace Player
     public class Pointer : MonoBehaviour
     {
         [SerializeField] private float _smoothTime = 0.3f;
-        [SerializeField] private float _areaOffset = 2f;
         [SerializeField] private float _rotationSpeed = 5f;
         [SerializeField] private float _maximumDistance = 50f;
 
         private PointLocation[] _pointLocations;
         private Vector3 _velocity = Vector3.zero;
         private Camera _camera;
+
+        private const float HEIGHT = 2f;
 
         public PointLocation TargetPointLocation { get; private set; }
 
@@ -27,7 +28,8 @@ namespace Player
 
         public void FindPointLocationsArround(Vector3 position)
         {
-            PointLocation[] allPointLocations = FindObjectsOfType<PointLocation>();
+            PointLocation[] allPointLocations =
+                Object.FindObjectsByType<PointLocation>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             List<PointLocation> filteredLocations = new System.Collections.Generic.List<PointLocation>();
 
             foreach (PointLocation location in allPointLocations)
@@ -62,11 +64,12 @@ namespace Player
 
         private void MoveToMouse()
         {
-            var mousePos = Input.mousePosition;
-            var worldPoint = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 worldPoint = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
+            worldPoint.y = HEIGHT;
             transform.position = Vector3.SmoothDamp(transform.position, worldPoint, ref _velocity, _smoothTime);
 
-            var direction = worldPoint - transform.position;
+            Vector3 direction = worldPoint - transform.position;
             if (direction != Vector3.zero)
             {
                 var targetRotation = Quaternion.LookRotation(direction);
@@ -85,7 +88,6 @@ namespace Player
             TargetPointLocation = FindClosestTargetPosition();
             if (TargetPointLocation == null)
             {
-                Debug.Log("null target");
                 return;
             }
 
@@ -101,18 +103,18 @@ namespace Player
             PointLocation closestPointLocation = null;
             float minDistance = float.MaxValue;
 
-            foreach (var location in _pointLocations)
+            foreach (PointLocation location in _pointLocations)
             {
-                Vector3 p1World = location.transform.position;
-                Vector3 p2World = p1World + location.transform.right * _areaOffset;
+                if (!location.enabled)
+                {
+                    continue;
+                }
 
-                Vector3 p1Screen = _camera.WorldToScreenPoint(p1World);
-                Vector3 p2Screen = _camera.WorldToScreenPoint(p2World);
+                Vector3 pointPosition = location.transform.position;
+                Vector3 p1Screen = _camera.WorldToScreenPoint(pointPosition);
 
-                Vector2 mousePos2D = (Vector2) Input.mousePosition;
-                Vector2 closestPoint2D = FindClosestPointOnLineSegment(p1Screen, p2Screen, mousePos2D);
-                float distance = Vector2.Distance(mousePos2D, closestPoint2D);
-                Debug.Log("distance" + distance);
+                Vector2 mousePos2D = Input.mousePosition;
+                float distance = Vector2.Distance(mousePos2D, p1Screen);
 
                 if (distance < minDistance)
                 {

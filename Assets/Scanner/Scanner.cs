@@ -3,8 +3,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Pointer = Player.Pointer;
 
-namespace Player
+namespace Scanner
 {
     public class Scanner : MonoBehaviour
     {
