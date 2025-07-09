@@ -15,12 +15,24 @@ namespace Menu
         [SerializeField] private float _offset;
 
         public UnityAction<ButtonHandler> OnClick;
+        public UnityAction OnHoverStart;
+        public UnityAction OnHoverEnd;
 
         public bool IsClicked { get; private set; } = false;
 
         private void Awake()
         {
             DeactivateButton();
+        }
+
+        private void OnMouseEnter()
+        {
+            OnHoverStart?.Invoke();
+        }
+
+        private void OnMouseExit()
+        {
+            OnHoverEnd?.Invoke();
         }
 
         private void OnMouseDown()

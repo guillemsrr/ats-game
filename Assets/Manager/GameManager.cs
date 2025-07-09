@@ -6,6 +6,7 @@ using Menu;
 using Player;
 using Questions;
 using Resume;
+using Scanner;
 using UnityEngine;
 
 namespace Manager
@@ -16,9 +17,7 @@ namespace Manager
         [SerializeField] private Transform _levelCameraCenter;
         [SerializeField] private CameraController _cameraController;
 
-        [SerializeField] private ResumeGenerator _resumeGenerator;
-        [SerializeField] private RevealTransparencyHandler _revealTransparencyHandler;
-        [SerializeField] private LevelQuestions _levelQuestions;
+        [SerializeField] private NoiseRevealController _noiseRevealController;
         [SerializeField] private Pointer _pointerPlayer;
         [SerializeField] private LevelsManager _levelsManager;
         [SerializeField] private ScanManager _scanManager;
@@ -45,8 +44,8 @@ namespace Manager
         public void GoBackToMenu()
         {
             _cameraController.Center = _menuCameraCenter;
-            _cameraController.SetTargetZoom(10);
-            _cameraController.SetCameraOffset(0.2f);
+            _cameraController.SetTargetZoom(15);
+            _cameraController.SetCameraOffset(0.1f);
 
             _pointerPlayer.SetMoveToMouse(false);
             _pointerPlayer.FindPointLocationsArround(_menuCameraCenter.position);
@@ -54,25 +53,13 @@ namespace Manager
 
         public void StartLevel(int level)
         {
-            if (level <= 1)
-            {
-                _pointerPlayer.SetMoveToMouse(true);
-                _scanManager.SetScanType(false);
-            }
-            else
-            {
-                _scanManager.SetScanType(true);
-            }
-
             _scanManager.Activate();
-            _levelsManager.StartLevel(level);
-            _resumeGenerator.GenerateResume();
-            _revealTransparencyHandler.Initialize();
-
-            _pointerPlayer.FindPointLocationsArround(_levelCameraCenter.position);
             _cameraController.Center = _levelCameraCenter;
             _cameraController.SetTargetZoom(30);
-            _cameraController.SetCameraOffset(0.5f);
+            _cameraController.SetCameraOffset(0.75f);
+            _levelsManager.StartLevel(level);
+
+            _pointerPlayer.FindPointLocationsArround(_levelCameraCenter.position);
         }
     }
 }

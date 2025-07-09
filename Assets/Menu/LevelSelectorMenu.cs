@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Menu
 {
-    public class LevelSelectorMenu: MonoBehaviour
+    public class LevelSelectorMenu : MonoBehaviour
     {
         [SerializeField] private List<ButtonHandler> _levelsButtons;
         [SerializeField] private GameManager _gameManager;
@@ -23,6 +23,7 @@ namespace Menu
         private void OnLevelSelected(ButtonHandler button)
         {
             int level = _levelsButtons.IndexOf(button);
+            level++;
             _gameManager.StartLevel(level);
         }
     }

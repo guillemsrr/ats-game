@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7405875239303875681}
   - component: {fileID: 6843704814338833530}
-  - component: {fileID: 1562909925232714059}
+  - component: {fileID: 5439013510825814464}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -177,7 +177,7 @@ Transform:
   m_GameObject: {fileID: 7840486271565430648}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.05, y: 0.32, z: 30.8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -201,8 +201,8 @@ MonoBehaviour:
   _selectedMaterial: {fileID: 2100000, guid: f01918b49016b2647a2e45c0693dd303, type: 2}
   _unSelectedMaterial: {fileID: 2100000, guid: 6504fec9f6a497141851c6cf11769c0e, type: 2}
   _offset: 0.5
---- !u!135 &1562909925232714059
-SphereCollider:
+--- !u!65 &5439013510825814464
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -220,8 +220,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.61
-  m_Center: {x: 0, y: 0.33, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8032832702504866631
 GameObject:
   m_ObjectHideFlags: 0
