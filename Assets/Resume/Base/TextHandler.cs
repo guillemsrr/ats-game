@@ -9,28 +9,45 @@ using UnityEngine.Localization.Tables;
 
 namespace Resume.Base
 {
-    public class TextHandler: MonoBehaviour
+    public class TextHandler : MonoBehaviour
     {
         [SerializeField] private TextMeshPro _text;
         [SerializeField] private LocalizeStringEvent _localizeStringEvent;
 
-        public void SetTextKey(string key, StringTableCollection tableCollection)
+        public void SetTextKey(string key, StringTableCollection tableCollection = null)
         {
+            if (!tableCollection)
+            {
+                SetUnlocalizedText(key);
+                return;
+            }
+
             var table = tableCollection.GetTable(LocalizationSettings.SelectedLocale.Identifier) as StringTable;
             if (table == null || !table.SharedData.Contains(key))
             {
-                _text.text = key;
-                _localizeStringEvent.enabled = false;
+                SetUnlocalizedText(key);
                 return;
             }
-            
+
             _localizeStringEvent.SetTable(tableCollection.TableCollectionNameReference);
             _localizeStringEvent.SetEntry(key);
             _localizeStringEvent.RefreshString();
         }
 
-        public void SetFont(int i)
+        private void SetUnlocalizedText(string key)
         {
+            _text.text = key;
+            _localizeStringEvent.enabled = false;
+        }
+
+        public void SetFontSize(float fontSize)
+        {
+            _text.fontSize = fontSize;
+        }
+
+        public void SetColor(Color color)
+        {
+            _text.color = color;
         }
     }
 }
