@@ -9,5 +9,9 @@ namespace Questions
     {
         [SerializeField] private TextHandler _questionText;
 
+        public void SetQuestion(QuestionData questionData)
+        {
+            _questionText.SetTextKey(questionData.Text, null);
+        }
     }
 }
