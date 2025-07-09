@@ -12,7 +12,7 @@ namespace FogOfWar
         [SerializeField] private FogPart _fogPartPrefab;
         [SerializeField] private float _space = 2f;
 
-        private void Start()
+        public void Generate()
         {
             for (int column = 0; column < _columns; column++)
             {
