@@ -18,12 +18,10 @@ namespace Questions
 
         private void OnNo(ButtonHandler arg0)
         {
-            throw new NotImplementedException();
         }
 
         private void OnYes(ButtonHandler arg0)
         {
-            throw new NotImplementedException();
         }
     }
 }
