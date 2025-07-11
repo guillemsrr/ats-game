@@ -14,20 +14,19 @@ namespace Scanner
 
         [SerializeField] private float _scanLength = 5f;
         [SerializeField] private float _scanOffset = 1f;
-        [SerializeField] private float _depletionRate = 1f;
+        [SerializeField] private float _depletionRate = 0.1f;
         [SerializeField] private float _scanRateSeconds = 0.01f;
 
         [SerializeField] private float _pixelSizeIncrease = 0.1f;
 
-        private bool _linearScan = true;
+        private bool _linearScan = false;
+        private bool _canScan = false;
         private Coroutine _scanCoroutine;
 
-        public void Activate()
+        public void Awake()
         {
             _scanner.ScanStart += OnScanStart;
             _scanner.ScanEnd += OnScanEnd;
-
-            Reset();
         }
 
         public void Reset()
@@ -35,10 +34,14 @@ namespace Scanner
             _scanBattery.RechargeBattery();
         }
 
+        public void Activate()
+        {
+            _canScan = true;
+        }
+
         public void DeActivate()
         {
-            _scanner.ScanStart -= OnScanStart;
-            _scanner.ScanEnd -= OnScanEnd;
+            _canScan = false;
         }
 
         public void SetLinearScan(bool isLinear)
@@ -59,6 +62,11 @@ namespace Scanner
 
         private void OnScanStart()
         {
+            if (!_canScan)
+            {
+                return;
+            }
+
             if (_scanBattery.IsDepleted())
             {
                 return;
@@ -69,7 +77,14 @@ namespace Scanner
                 StopCoroutine(_scanCoroutine);
             }
 
-            _scanCoroutine = StartCoroutine(_linearScan ? LinearScan() : AreaScan());
+            if (_linearScan)
+            {
+                _scanCoroutine = StartCoroutine(LinearScan());
+            }
+            else
+            {
+                _scanCoroutine = StartCoroutine(AreaScan());
+            }
         }
 
         private IEnumerator LinearScan()
@@ -90,7 +105,8 @@ namespace Scanner
                     yield return new WaitForSeconds(_scanRateSeconds / (iterations * 10f));
                 }
 
-                _scanBattery.Decrease(_depletionRate * Time.fixedDeltaTime);
+                _scanBattery.Decrease(_depletionRate * _revealTransparencyHandler.PaintSquareSizeMultiplier *
+                                      Time.fixedDeltaTime);
                 yield return new WaitForSeconds(_scanRateSeconds);
                 IncreaseRevealPixelArea();
                 iterations++;

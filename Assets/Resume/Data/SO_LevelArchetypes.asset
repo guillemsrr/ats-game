@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b1fa8c21b84028802aa1a8972b154b, type: 3}
+  m_Name: SO_LevelArchetypes
+  m_EditorClassIdentifier: 
+  _levelArchetypes:
+  - Level: 1
+    _jobsDatas:
+    - {fileID: 11400000, guid: 4cfd27e68565c9c4a93078ab4e8a10a1, type: 2}
+    _requirements:
+    - {fileID: 11400000, guid: 8b617764ed862564dbcc8f3fa0d67a47, type: 2}
+    - {fileID: 11400000, guid: e36e3e2c94f065d4bb375e08b57c46d1, type: 2}
+    - {fileID: 11400000, guid: aadd73e6d71aa5549a5fbe9965941435, type: 2}
+    - {fileID: 11400000, guid: 25f9a154d6f2e904da590d06de5d42be, type: 2}
+    - {fileID: 11400000, guid: d61aa2df61c2f174fbb40ba8ea65a775, type: 2}

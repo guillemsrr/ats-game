@@ -1,207 +1,433 @@
+// Copyright (c) Guillem Serra. All Rights Reserved.
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Resume.Base;
+using Resume.Data.Requirements;
 using Resume.ScriptableObjects;
+using TMPro;
 using UnityEngine;
-using UnityEditor.Localization;
+using UnityEngine.Localization;
+using Utils;
+using Random = UnityEngine.Random;
 
 namespace Resume
 {
     public class ResumeGenerator : MonoBehaviour
     {
         [SerializeField] private NamesData _namesData;
-        [SerializeField] private JobsData _jobsData;
+        [SerializeField] private LevelArchetypes _levelArchetypes;
         [SerializeField] private LocationsData _locationsData;
+        [SerializeField] private EmailsData _emailsData;
 
         [SerializeField] private Transform _resumeParent;
         [SerializeField] private Transform _textStartTransform;
         [SerializeField] private TextHandler _textHandlerPrefab;
 
         [SerializeField] private float _shortSpacing = 0.3f;
-        [SerializeField] private float _longSpacingRelation = 1.5f;
+        [SerializeField] private float _longSpacingRelation = 1.25f;
 
-        [SerializeField] private StringTableCollection _resumeTableCollection;
+        [SerializeField] private float _normalFontSize = 9f;
+        [SerializeField] private float _shortFontRelation = 0.75f;
+        [SerializeField] private float _sectionFontSize = 14f;
+        [SerializeField] private float _nameFontSize = 30f;
+        [SerializeField] private Vector2 _fontSizeRangeRelation = new Vector2(0.8f, 1.2f);
+
+        [SerializeField] private TMP_FontAsset[] _fonts;
+        [SerializeField] private TMP_FontAsset[] _alternativeFonts;
+
+        private TMP_FontAsset _currentFont;
+
+        private float _fontSizeMultiplier = 1f;
 
         private float LongSpace => _shortSpacing * _longSpacingRelation;
 
-        public void GenerateResume()
+        private float ShortFontSize => _normalFontSize * _shortFontRelation;
+
+        private TextAlignmentOptions _alignment;
+
+        Vector2 _location = new Vector2();
+
+        public LevelArchetype GetRandomLevelArchetype(int level)
         {
-            var randomResume = Generate();
-            GenerateResume(randomResume);
+            LevelArchetype archetype = _levelArchetypes.GetRandomArchetype(level);
+            return archetype;
         }
 
-        private ResumeData Generate()
+        public ResumeData GenerateResume(LevelArchetype archetype)
         {
-            var resume = new ResumeData();
+            ResumeData resume = new ResumeData();
+            resume.FullName = _namesData.GetRandomName();
 
-            resume.FullName = RandomName();
-            resume.Role = RandomElement(_jobsData.JobTitles);
-            resume.LocationContact = RandomCity();
-            resume.Skills = GetRandomSubset(_jobsData.Skills, 4);
-            resume.Summary = "Summary";
-            resume.WorkExperiences = GenerateRandomWorkExperiences();
-            resume.Sections = GenerateRandomSections();
+            JobArchetype jobArchetype = archetype.GetJobArchetype();
+            resume.JobArchetype = jobArchetype;
+            if (archetype.Level > 1) //although not everybody would add it
+            {
+                resume.Role = UtilsLibrary.RandomElement(jobArchetype.JobTitles);
+            }
 
+            resume.Location = _locationsData.GetRandomLocation();
+            resume.Email = UtilsLibrary.RandomElement(_emailsData.Emails);
+            resume.MobileNumber = Random.Range(100000000, 999999999);
+
+            List<string> skills = jobArchetype.GetRandomSkills(3);
+            List<string> softSkills = jobArchetype.GetRandomSoftSkills(3);
+
+            skills.AddRange(softSkills);
+
+            string skillsJoined = "";
+            for (int i = 0; i < skills.Count - 1; i++)
+            {
+                skillsJoined += skills[i] + ", ";
+            }
+
+            skillsJoined += skills[skills.Count - 1];
+
+            resume.Skills = skillsJoined;
+            resume.Summary = UtilsLibrary.RandomElement(jobArchetype.Summary);
+            resume.WorkExperiences = GenerateRandomWorkExperiences(jobArchetype);
+            resume.EducationExperiences = GenerateRandomEducation(jobArchetype);
+            resume.Sections = GenerateRandomSections(jobArchetype);
             return resume;
         }
 
-        string RandomName() =>
-            $"{RandomElement(_namesData.FirstNames)} {RandomElement(_namesData.LastNames)}";
-
-        string RandomCity()
+        private EducationExperience[] GenerateRandomEducation(JobArchetype jobArchetype)
         {
-            var country = RandomElement(_locationsData.Locations.ToArray());
-            var state = RandomElement(country.States);
-            return RandomElement(state.Cities) + ", " + state.State + ", " + country.Country;
-        }
-
-        T RandomElement<T>(T[] array)
-        {
-            if (array == null || array.Length == 0)
-                throw new System.ArgumentException("Array cannot be null or empty");
-            return array[Random.Range(0, array.Length)];
-        }
-
-        List<string> GetRandomSubset(string[] source, int count)
-        {
-            return source.OrderBy(x => Random.value).Take(count).ToList();
-        }
-
-        List<WorkExperience> GenerateRandomWorkExperiences()
-        {
-            var experiences = new List<WorkExperience>();
-            int count = Random.Range(2, 5);
+            int count = Random.Range(1, 3);
+            var experiences = new EducationExperience[count];
 
             for (int i = 0; i < count; i++)
             {
-                experiences.Add(new WorkExperience
+                int startYear = Random.Range(1980, 2025);
+                int endYear = startYear + Random.Range(2, 8);
+
+                var educationData = UtilsLibrary.RandomElement(jobArchetype.EducationData);
+
+                experiences[i] = new EducationExperience
                 {
-                    Position = RandomElement(_jobsData.JobTitles),
-                    Company = "Company " + (i + 1),
-                    YearRange = $"{2020 + i}-{2021 + i}",
-                    Description = "Work description " + (i + 1)
-                });
+                    YearStart = startYear,
+                    YearEnd = endYear,
+                    School = UtilsLibrary.RandomElement(educationData.Schools),
+                    Degree = UtilsLibrary.RandomElement(educationData.Degrees),
+                    Description = UtilsLibrary.RandomElement(educationData.Description)
+                };
             }
 
             return experiences;
         }
 
-        List<SectionData> GenerateRandomSections()
-        {
-            var sections = new List<SectionData>();
-            int count = Random.Range(1, 4);
-
-            for (int i = 0; i < count; i++)
-            {
-                var entries = new List<Experience>();
-                int entriesCount = Random.Range(1, 4);
-
-                for (int j = 0; j < entriesCount; j++)
-                {
-                    entries.Add(new Experience
-                    {
-                        YearRange = $"{2020 + j}-{2021 + j}",
-                        Description = "Experience description " + (j + 1)
-                    });
-                }
-
-                sections.Add(new SectionData
-                {
-                    Title = "Section " + (i + 1),
-                    Entries = entries
-                });
-            }
-
-            return sections;
-        }
-
-        void GenerateResume(ResumeData resume)
+        public void GenerateVisualResume(ResumeData resumeData)
         {
             foreach (Transform child in _resumeParent)
             {
                 Destroy(child.gameObject);
             }
 
-            Vector2 location = new Vector2();
-            TextHandler nameText = AddText(resume.FullName, location);
-            nameText.SetFontSize(30);
-            location.y += LongSpace;
+            StartCoroutine(GenerateResume(resumeData));
+        }
 
-            TextHandler roleText = AddText(resume.Role, location);
-            nameText.SetFontSize(20);
-            location.y += LongSpace;
-            TextHandler locationContactText = AddNormalText(resume.LocationContact, ref location);
-            TextHandler summaryTitleText = AddSectionText("Summary", ref location);
-            TextHandler summaryText = AddNormalText(resume.Summary, ref location);
+        private WorkExperience[] GenerateRandomWorkExperiences(JobArchetype jobArchetype)
+        {
+            int count = Random.Range(1, 4);
+            var experiences = new WorkExperience[count];
 
-            AddSectionText("Skills", ref location);
-            resume.Skills.ForEach(skill => AddText(skill, location));
-            location.y += LongSpace;
-
-            AddSectionText("Experience", ref location);
-            resume.WorkExperiences.ForEach(job => AddJob(job, ref location));
-            location.y += LongSpace;
-
-            AddSectionText("Projects", ref location);
-            location.y += LongSpace;
-
-            foreach (var section in resume.Sections)
+            for (int i = 0; i < count; i++)
             {
-                AddSectionText(section.Title, ref location);
-                foreach (var experience in section.Entries)
+                int startYear = Random.Range(2012, 2022);
+                int duration = Random.Range(1, 4);
+                int endYear = startYear + duration;
+
+                var companyData = UtilsLibrary.RandomElement(jobArchetype.CompaniesData);
+
+                experiences[i] = new WorkExperience
                 {
-                    AddNormalText($"{experience.YearRange}", ref location);
-                    AddNormalText(experience.Description, ref location);
+                    YearStart = startYear,
+                    YearEnd = endYear,
+                    Position = UtilsLibrary.RandomElement(jobArchetype.JobTitles),
+
+                    Company = UtilsLibrary.RandomElement(companyData.Companies),
+                    Description = UtilsLibrary.RandomElement(companyData.Descriptions)
+                };
+            }
+
+            return experiences;
+        }
+
+        private SectionData[] GenerateRandomSections(JobArchetype jobArchetype)
+        {
+            var sections = new List<SectionData>();
+            //TODO
+            return sections.ToArray();
+        }
+
+        IEnumerator GenerateResume(ResumeData resume)
+        {
+            bool isDifficult = Random.value < 0.25;
+            TMP_FontAsset[] fonts = isDifficult ? _alternativeFonts : _fonts;
+            _currentFont = UtilsLibrary.RandomElement(fonts);
+
+            _fontSizeMultiplier = Random.Range(_fontSizeRangeRelation.x, _fontSizeRangeRelation.y);
+
+            _alignment = TextAlignmentOptions.Left;
+            SetRandomAlignment();
+
+            _location = new Vector2();
+            TextHandler nameText = AddText(resume.FullName);
+            SetFontSize(nameText, _nameFontSize);
+            _location.y += LongSpace * 1.5f;
+
+            if (!string.IsNullOrEmpty(resume.Role))
+            {
+                TextHandler roleText = AddText(resume.Role);
+                SetFontSize(roleText, _nameFontSize * 0.75f);
+
+                _location.y += LongSpace;
+            }
+
+            if (!string.IsNullOrEmpty(resume.Location))
+            {
+                AddNormalText(resume.Location);
+            }
+
+            if (!string.IsNullOrEmpty(resume.Email))
+            {
+                AddNormalText(resume.Email);
+            }
+
+            if (resume.MobileNumber != 0)
+            {
+                string mobileNumber = resume.MobileNumber.ToString();
+                AddNormalText(mobileNumber);
+            }
+
+            List<ResumeSectionType> sectionsOrder = new()
+            {
+                ResumeSectionType.Summary,
+                ResumeSectionType.Skills,
+                ResumeSectionType.Experience,
+                ResumeSectionType.Education,
+                ResumeSectionType.Projects
+            };
+
+            float sectionShuffleRandom = Random.value;
+            if (sectionShuffleRandom > 0.75f)
+            {
+                UtilsLibrary.ShuffleList(sectionsOrder);
+            }
+
+            SetRandomAlignment();
+
+            foreach (ResumeSectionType resumeSectionType in sectionsOrder)
+            {
+                switch (resumeSectionType)
+                {
+                    case ResumeSectionType.Summary:
+                        yield return GenerateSummarySection(resume);
+                        break;
+                    case ResumeSectionType.Skills:
+                        yield return GenerateSkillsSection(resume);
+                        break;
+                    case ResumeSectionType.Experience:
+                        yield return GenerateExperienceSection(resume);
+                        break;
+                    case ResumeSectionType.Education:
+                        yield return GenerateEducationSection(resume);
+                        break;
+                    case ResumeSectionType.Projects:
+                        yield return GenerateProjectsSection(resume);
+                        break;
                 }
             }
         }
 
-        TextHandler AddText(string textKey, Vector2 location)
+        private void SetRandomAlignment()
         {
-            TextHandler textInstance = Instantiate(_textHandlerPrefab, _resumeParent);
-            textInstance.transform.localPosition = new Vector3(location.x, 0, -location.y);
-            textInstance.SetTextKey(textKey, _resumeTableCollection);
+            float alignmentRandom = Random.value;
+            if (alignmentRandom > 0.75f)
+            {
+                _alignment = TextAlignmentOptions.Right;
+            }
+            else if (alignmentRandom > 0.5f)
+            {
+                _alignment = TextAlignmentOptions.Center;
+            }
+        }
+
+        private IEnumerator GenerateEducationSection(ResumeData resume)
+        {
+            if (resume.EducationExperiences.Length > 0)
+            {
+                AddSectionText("Education");
+                foreach (var education in resume.EducationExperiences)
+                {
+                    AddNormalText(
+                        $"{education.Degree} at {education.School} ({education.YearStart} - {education.YearEnd})");
+
+                    if (!education.Description.IsEmpty)
+                    {
+                        var educationDescription = AddNormalText(education.Description);
+                        yield return educationDescription.DelayedSizeUpdate();
+                        _location.y += educationDescription.TextHeight;
+                    }
+                }
+
+                _location.y += LongSpace;
+            }
+        }
+
+        private IEnumerator GenerateProjectsSection(ResumeData resume)
+        {
+            if (resume.Sections.Length > 0)
+            {
+                AddSectionText("Projects");
+                _location.y += LongSpace;
+
+                foreach (var section in resume.Sections)
+                {
+                    AddSectionText(section.Title);
+                    foreach (var experience in section.Entries)
+                    {
+                        AddNormalText($"{experience.YearStart} - {experience.YearEnd}");
+
+                        if (!experience.Description.IsEmpty)
+                        {
+                            var projectDescription = AddNormalText(experience.Description);
+                            yield return projectDescription.DelayedSizeUpdate();
+                            _location.y += projectDescription.TextHeight;
+                        }
+                    }
+                }
+            }
+        }
+
+        private IEnumerator GenerateExperienceSection(ResumeData resume)
+        {
+            if (resume.WorkExperiences.Length > 0)
+            {
+                AddSectionText("Experience");
+                foreach (var workExperience in resume.WorkExperiences)
+                {
+                    AddNormalText(
+                        $"{workExperience.Position} at {workExperience.Company} ({workExperience.YearStart} - {workExperience.YearEnd})");
+                    if (!workExperience.Description.IsEmpty)
+                    {
+                        var jobdescription = AddNormalText(workExperience.Description);
+                        yield return jobdescription.DelayedSizeUpdate();
+                        _location.y += jobdescription.TextHeight;
+                    }
+                }
+
+                _location.y += LongSpace;
+            }
+        }
+
+        private object GenerateSkillsSection(ResumeData resume)
+        {
+            AddSectionText("Skills");
+
+            TextHandler skillsText = AddText(resume.Skills);
+            SetFontSize(skillsText, ShortFontSize);
+
+            return skillsText.DelayedSizeUpdate();
+            _location.y += skillsText.TextHeight;
+        }
+
+        private object GenerateSummarySection(ResumeData resume)
+        {
+            TextHandler summaryTitleText = AddSectionText("Summary");
+            TextHandler summaryText = AddNormalText(resume.Summary);
+
+            return summaryText.DelayedSizeUpdate();
+
+            _location.y += summaryText.TextHeight;
+        }
+
+        TextHandler AddText(string textKey)
+        {
+            TextHandler textInstance = CreateTextInstance(_location);
+            textInstance.SetText(textKey, "Resume");
 
             return textInstance;
         }
 
-        private void AddJob(WorkExperience workExperience, ref Vector2 description)
+        TextHandler AddText(LocalizedString localizedString, Vector2 location)
         {
-            AddNormalText($"{workExperience.Position} at {workExperience.Company} ({workExperience.YearRange})",
-                ref description);
-            AddNormalText(workExperience.Description, ref description);
+            TextHandler textInstance = CreateTextInstance(location);
+            textInstance.SetText(localizedString);
+
+            return textInstance;
         }
 
-        TextHandler AddSectionText(string textKey, ref Vector2 location)
+        private TextHandler CreateTextInstance(Vector2 location)
         {
-            TextHandler sectionText = AddText(textKey, location);
-            sectionText.SetFontSize(15);
-            //tmp.fontSize = size;
+            TextHandler textInstance = Instantiate(_textHandlerPrefab, _resumeParent);
+            textInstance.transform.localPosition = new Vector3(location.x, 0, -location.y);
+            textInstance.SetFont(_currentFont);
+            textInstance.SetAlignment(_alignment);
 
-            /*bool bold = false,  bool italic = false,  bool underline = false,
-            int size = 12
-            if (bold) tmp.fontStyle = FontStyles.Bold;
-            else if (italic) tmp.fontStyle = FontStyles.Italic;
-            if (underline) tmp.fontStyle |= FontStyles.Underline;*/
+            return textInstance;
+        }
 
-            location.y += LongSpace;
+        TextHandler AddSectionText(LocalizedString title)
+        {
+            _location.y += LongSpace;
+
+            TextHandler sectionText = AddText(title, _location);
+            SetFontSize(sectionText, _sectionFontSize);
+            _location.y += _shortSpacing;
+
             return sectionText;
         }
 
-        TextHandler AddNormalText(string textKey, ref Vector2 location)
+        TextHandler AddSectionText(string title)
         {
-            TextHandler text = AddText(textKey, location);
-            text.SetFontSize(15);
-            //tmp.fontSize = size;
+            _location.y += LongSpace;
 
-            /*bool bold = false,  bool italic = false,  bool underline = false,
-            int size = 12
-            if (bold) tmp.fontStyle = FontStyles.Bold;
-            else if (italic) tmp.fontStyle = FontStyles.Italic;
-            if (underline) tmp.fontStyle |= FontStyles.Underline;*/
+            TextHandler sectionText = AddText(title);
+            SetFontSize(sectionText, _sectionFontSize);
 
-            location.y += _shortSpacing;
+            _location.y += _shortSpacing;
+
+            return sectionText;
+        }
+
+        TextHandler AddNormalText(LocalizedString textKey)
+        {
+            TextHandler text = AddText(textKey, _location);
+            SetFontSize(text, _normalFontSize);
+
+            _location.y += _shortSpacing;
             return text;
+        }
+
+        TextHandler AddNormalText(string textKey)
+        {
+            TextHandler text = AddText(textKey);
+            SetFontSize(text, _normalFontSize);
+            _location.y += _shortSpacing;
+            return text;
+        }
+
+        public List<RequirementPoco> GetRandomRequirements(ResumeData resumeData, LevelArchetype archetype,
+            float percentageMet)
+        {
+            List<RequirementData> requirementData = archetype.GetRandomRequirements();
+            List<RequirementPoco> requirements = new List<RequirementPoco>();
+            foreach (RequirementData requirement in requirementData)
+            {
+                bool isMet = Random.value < percentageMet;
+                string description = requirement.GetDescription(resumeData, isMet);
+                RequirementPoco req = new RequirementPoco(description);
+                requirements.Add(req);
+            }
+
+            return requirements;
+        }
+
+        void SetFontSize(TextHandler text, float fontSize)
+        {
+            text.SetFontSize(fontSize * _fontSizeMultiplier);
         }
     }
 }

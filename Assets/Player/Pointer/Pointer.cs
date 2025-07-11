@@ -10,12 +10,16 @@ namespace Player
         [SerializeField] private float _smoothTime = 0.3f;
         [SerializeField] private float _rotationSpeed = 5f;
         [SerializeField] private float _maximumDistance = 50f;
+        [SerializeField] private float _scaleRatio = 0.25f;
+        [SerializeField] private float _scaleSpeed = 1f;
 
         private PointLocation[] _pointLocations;
         private Vector3 _velocity = Vector3.zero;
         private Camera _camera;
 
         private const float HEIGHT = 2f;
+
+        private float _scaleTarget = 1;
 
         public PointLocation TargetPointLocation { get; private set; }
 
@@ -54,6 +58,9 @@ namespace Player
             {
                 MoveToClosestPoint();
             }
+
+            float scale = Mathf.Lerp(transform.localScale.x, _scaleTarget, Time.deltaTime * _scaleSpeed);
+            transform.localScale = Vector3.one * scale;
         }
 
         public void SetMoveToMouse(bool moveToMouse)
@@ -105,7 +112,7 @@ namespace Player
 
             foreach (PointLocation location in _pointLocations)
             {
-                if (!location.enabled)
+                if (!location.isActiveAndEnabled)
                 {
                     continue;
                 }
@@ -138,6 +145,11 @@ namespace Player
             t = Mathf.Clamp01(t);
 
             return segmentStart + t * segment;
+        }
+
+        public void Scale(float cameraOrthographicSize)
+        {
+            _scaleTarget = cameraOrthographicSize * _scaleRatio;
         }
     }
 }

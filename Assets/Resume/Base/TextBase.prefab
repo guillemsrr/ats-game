@@ -249,7 +249,7 @@ MonoBehaviour:
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
-    m_FallbackState: 0
+    m_FallbackState: 2
     m_WaitForCompletion: 0
     m_LocalVariables: []
   m_FormatArguments: []
@@ -267,7 +267,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
   references:
     version: 2
     RefIds: []

@@ -13,16 +13,13 @@ namespace FogOfWar
         private float _noiseScale;
         private float _threshold;
 
-        private int _seed;
         private float _seedOffset;
 
         private Coroutine _noiseReavealCoroutine;
 
-        private void Awake()
+        private void Start()
         {
-            _seed = Random.Range(0, int.MaxValue);
-            System.Random rng = new System.Random(_seed);
-            _seedOffset = (float) rng.NextDouble(); // use per-cell instead of Perlin
+            _seedOffset = Random.Range(1, 5) / 1000f;
         }
 
         public void StartReveal(float noiseScale = 5f, float threshold = 0.5f)
@@ -49,7 +46,9 @@ namespace FogOfWar
                     float u = x / (float) (_gridResolution - 1);
                     float v = y / (float) (_gridResolution - 1);
 
-                    float noise = Mathf.PerlinNoise(u * _noiseScale + _seedOffset, v * _noiseScale + _seedOffset);
+                    float noise = Mathf.PerlinNoise(u * _noiseScale * GetRandomNoiseValue() + _seedOffset, v *
+                        _noiseScale *
+                        GetRandomNoiseValue() + _seedOffset);
                     if (noise > _threshold)
                     {
                         _revealHandler.RevealAtUV(new Vector2(u, v));
@@ -59,9 +58,14 @@ namespace FogOfWar
             }
         }
 
+        float GetRandomNoiseValue()
+        {
+            return Random.Range(0.98f, 1.1f);
+        }
+
         public void FullReveal()
         {
-            _revealHandler.PaintSquareSize = 10f;
+            _revealHandler.PaintSquareSize = 15f;
 
             if (_noiseReavealCoroutine != null)
             {

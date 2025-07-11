@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b041cbe9d54acf87d2d524a2f00975, type: 3}
+  m_Name: SO_EducationData
+  m_EditorClassIdentifier: 
+  Degrees:
+  - B.Sc. Computer Science
+  - B.Sc. Software Engineering
+  - B.Eng. Computer Engineering
+  - M.Sc. Artificial Intelligence
+  - M.Sc. Cybersecurity
+  - B.Sc. Information Technology
+  - B.Sc. Data Science
+  - B.Sc. Stack Overflow Research
+  - B.Sc. Meme-Driven Development
+  - Ph.D. in Coffee-Fueled Debugging
+  - M.Sc. Dark Mode UX Design
+  - B.A. in Copy-Pasting from Reddit
+  - B.Sc. Game Jam Burnout Recovery
+  - Certified Agile Snake Oil Salesperson
+  - B.Sc. Procedural Resume Generation
+  - M.Sc. Procrastination-Driven Development
+  Schools:
+  - "Universitat Polit\xE8cnica de Catalunya"
+  - Universitat de Barcelona
+  - "Escola de Prim\xE0ria"
+  - Massachusetts Institute of Technology
+  - 'Stanford University '
+  - University of Cambridge
+  - Tsinghua University
+  - University of Late Night Debugging
+  - Stack Overflow School of Engineering
+  - University of Unreal Expectations
+  Description:
+  - m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,41 +1,21 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace FogOfWar
 {
     public class RevealTransparencyHandler : MonoBehaviour
     {
         [SerializeField] private RenderTexture _maskRenderTexture;
-        public float PaintSquareSize { get; set; } = 7.5f;
+        [SerializeField] private Texture2D _circularBrushTexture;
+        [SerializeField] private LayerMask _revealLayerMask;
+        
+        public float PaintSquareSize { get; set; } = 15f;
         public float PaintSquareSizeMultiplier { get; set; } = 1f;
-
-        private Texture2D _whiteTexture;
 
         private Vector3? _lastRevealPoint;
         private Ray? _lastRay;
         private RaycastHit? _lastHit;
-
-        public UnityAction OnMouseEnterAction;
-        public UnityAction OnMouseExitAction;
-
-        private void Awake()
-        {
-            _whiteTexture = new Texture2D(1, 1);
-            _whiteTexture.SetPixel(0, 0, Color.white);
-            _whiteTexture.Apply();
-        }
-
-        private void OnMouseEnter()
-        {
-            OnMouseEnterAction?.Invoke();
-        }
-
-        private void OnMouseExit()
-        {
-            OnMouseExitAction?.Invoke();
-        }
-
+        
         private void OnDrawGizmos()
         {
             if (_lastRevealPoint.HasValue)
@@ -72,9 +52,11 @@ namespace FogOfWar
         public void RevealAtPoint(Vector3 worldPos)
         {
             _lastRevealPoint = worldPos;
-            Ray ray = new Ray(worldPos + Vector3.up * 5f, Vector3.down); // Cast downward
+            
+            Ray ray = new Ray(worldPos + Vector3.up * 50f, Vector3.down);
             _lastRay = ray;
-            if (Physics.Raycast(ray, out RaycastHit hit))
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _revealLayerMask))
             {
                 _lastHit = hit;
                 RevealAtUV(hit.textureCoord);
@@ -94,7 +76,7 @@ namespace FogOfWar
 
             GL.PushMatrix();
             GL.LoadPixelMatrix(0, _maskRenderTexture.width, _maskRenderTexture.height, 0);
-            Graphics.DrawTexture(rect, _whiteTexture);
+            Graphics.DrawTexture(rect, _circularBrushTexture);
             GL.PopMatrix();
 
             RenderTexture.active = null;

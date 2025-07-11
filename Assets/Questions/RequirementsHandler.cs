@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System.Collections;
 using System.Collections.Generic;
+using Resume.Data.Requirements;
 using UnityEngine;
 
 namespace Questions
@@ -12,37 +14,44 @@ namespace Questions
 
         private float _currentHeight;
 
-        private List<RequirementData> _requirementDatas;
+        private bool _areAllMet;
 
-        public void Initialize()
+        public void SetRequirements(List<RequirementPoco> requirements, bool allMet)
         {
             _currentHeight = 0f;
+            _areAllMet = allMet;
 
-            _requirementDatas = new List<RequirementData>();
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            StartCoroutine(AddRequirementCoroutine(requirements));
         }
 
-        public void AddRequirement(RequirementData requirementData)
+        private IEnumerator AddRequirementCoroutine(List<RequirementPoco> requirements)
         {
-            Requirement question = Instantiate(_requirementModel, transform);
-            question.transform.localPosition = new Vector3(0, 0, _currentHeight);
-            question.Text.SetTextKey(requirementData.Text);
+            foreach (var requirementData in requirements)
+            {
+                yield return AddRequirement(requirementData);
+            }
+        }
 
+        private IEnumerator AddRequirement(RequirementPoco requirementData)
+        {
+            Requirement requirement = Instantiate(_requirementModel, transform);
+            requirement.transform.localPosition = new Vector3(0, 0, _currentHeight);
+            requirement.Text.SetText(requirementData.Description);
+
+            yield return requirement.Text.DelayedSizeUpdate();
+
+            _currentHeight -= requirement.Text.TextHeight;
             _currentHeight -= _requirementSeparation;
-
-            _requirementDatas.Add(requirementData);
         }
 
         public bool IsFit()
         {
-            foreach (var requirementData in _requirementDatas)
-            {
-                if (!requirementData.Fits)
-                {
-                    return false;
-                }
-            }
-            
-            return true;
+            return _areAllMet;
         }
     }
 }

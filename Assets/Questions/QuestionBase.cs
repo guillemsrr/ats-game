@@ -11,7 +11,7 @@ namespace Questions
 
         public void SetQuestion(QuestionData questionData)
         {
-            _questionText.SetTextKey(questionData.Text, null);
+            _questionText.SetText(questionData.Text, null);
         }
     }
 }

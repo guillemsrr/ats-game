@@ -14,6 +14,8 @@ namespace Menu
         
         public ButtonHandler Button => _buttonHandler;
 
+        public string Text => _textHandler.Text;
+
         private void Awake()
         {
             _buttonHandler.OnHoverStart += OnHoverStart;

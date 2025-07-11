@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571b8030912a4b9a9f1f57ebfc78b358, type: 3}
+  m_Name: SO_EmailsData
+  m_EditorClassIdentifier: 
+  Emails:
+  - asdqwe@gmail.com
+  - john.smith@gmail.com
+  - clara.torrent@outlook.com
+  - marc.guardiol@outlook.com
+  - anna.ribas.hr@gmail.com
+  - seniorjuniorlead@gmail.com
+  - tabs_vs_spaces_warrior@protonmail.com
+  - hiremeplz.thx@hotmail.com
+  - fullstackoverkill@gmail.com
+  - coffee2code@yahoo.com
+  - infinite.loop.master@gmail.com
+  - recursionlover@outlook.com
+  - overqualified_but_lazy@hotmail.com
+  - cv_tester_bot9000@gmail.com
+  - la_mateixa_but_better@gmail.com
+  - notabot_promise@outlook.com
+  - zero.bugs.given@yahoo.com
+  - csharp_supremacy@hotmail.com
+  - nou_recruiter_quemira@gmail.com
