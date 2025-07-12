@@ -17,6 +17,9 @@ namespace Audio
 
         public static AudioManager Instance;
 
+        Coroutine _fadeOutMusicCoroutine;
+        Coroutine _fadeInMusicCoroutine;
+
         private void Awake()
         {
             if (Instance != null)
@@ -32,7 +35,19 @@ namespace Audio
             _inGameAudioSource = gameObject.AddComponent<AudioSource>();
 
             _menuAudioSource.loop = true;
+            _menuAudioSource.volume = 0f;
+
             _inGameAudioSource.loop = true;
+            _inGameAudioSource.volume = 0f;
+
+            // Prewarm both clips
+            _menuAudioSource.clip = _menuAudioClip;
+            _menuAudioSource.Play();
+            _menuAudioSource.Pause();
+
+            _inGameAudioSource.clip = _inGameAudioClip;
+            _inGameAudioSource.Play();
+            _inGameAudioSource.Pause();
         }
 
         private void Start()
@@ -42,41 +57,57 @@ namespace Audio
 
         public void PlayMenuMusic()
         {
-            FadeOut(_inGameAudioSource);
-
-            if (!_menuAudioSource.isPlaying)
+            if (_fadeOutMusicCoroutine != null)
             {
-                FadeIn(_menuAudioSource, _menuAudioClip, 0.5f);
+                StopCoroutine(_fadeOutMusicCoroutine);
             }
+
+            if (_fadeInMusicCoroutine != null)
+            {
+                StopCoroutine(_fadeInMusicCoroutine);
+            }
+
+            _fadeOutMusicCoroutine = StartCoroutine(FadeOut(_inGameAudioSource));
+            _fadeInMusicCoroutine = StartCoroutine(FadeIn(_menuAudioSource, _menuAudioClip, 0.35f));
         }
 
         public void PlayInGameMusic()
         {
-            FadeOut(_menuAudioSource);
-
-            if (!_inGameAudioSource.isPlaying)
+            if (_fadeOutMusicCoroutine != null)
             {
-                FadeIn(_inGameAudioSource, _inGameAudioClip, 0.8f);
+                StopCoroutine(_fadeOutMusicCoroutine);
             }
+
+            if (_fadeInMusicCoroutine != null)
+            {
+                StopCoroutine(_fadeInMusicCoroutine);
+            }
+
+            _fadeOutMusicCoroutine = StartCoroutine(FadeOut(_menuAudioSource));
+            _fadeInMusicCoroutine = StartCoroutine(FadeIn(_inGameAudioSource, _inGameAudioClip, 0.2f));
         }
 
-        private void FadeIn(AudioSource audioSource, AudioClip newClip, float volume)
+        private IEnumerator FadeIn(AudioSource audioSource, AudioClip newClip, float volume)
         {
             audioSource.clip = newClip;
-            audioSource.volume = 0f;
             audioSource.Play();
 
-            StartCoroutine(FadeRoutine(audioSource, volume));
+            yield return FadeRoutine(audioSource, volume);
         }
 
-        private void FadeOut(AudioSource audioSource)
+        private IEnumerator FadeOut(AudioSource audioSource)
         {
-            StartCoroutine(FadeRoutine(audioSource, 0f));
+            yield return FadeRoutine(audioSource, 0f);
         }
 
         private IEnumerator FadeRoutine(AudioSource audioSource, float fadeTarget)
         {
             float startVolume = audioSource.volume;
+            if (Mathf.Approximately(startVolume, fadeTarget))
+            {
+                yield break;
+            }
+
             float elapsedTime = 0f;
 
             while (elapsedTime < _fadeDuration)
