@@ -17,12 +17,14 @@ namespace FogOfWar
 
         private Coroutine _noiseReavealCoroutine;
 
+        private const float PIZEL_SIZE = 15f;
+
         private void Start()
         {
             _seedOffset = Random.Range(1, 5) / 1000f;
         }
 
-        public void StartReveal(float noiseScale = 5f, float threshold = 0.5f)
+        public void StartPartialReveal(float noiseScale = 5f, float threshold = 0.5f)
         {
             _noiseScale = noiseScale;
             _threshold = threshold;
@@ -37,7 +39,7 @@ namespace FogOfWar
 
         private System.Collections.IEnumerator RevealNoisePattern()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
 
             for (int y = 0; y < _gridResolution; y++)
             {
@@ -51,7 +53,7 @@ namespace FogOfWar
                         GetRandomNoiseValue() + _seedOffset);
                     if (noise > _threshold)
                     {
-                        _revealHandler.RevealAtUV(new Vector2(u, v));
+                        _revealHandler.RevealAtUV(new Vector2(u, v), PIZEL_SIZE);
                         yield return new WaitForSeconds(_delayBetweenReveals);
                     }
                 }
@@ -65,8 +67,6 @@ namespace FogOfWar
 
         public void FullReveal()
         {
-            _revealHandler.PaintSquareSize = 15f;
-
             if (_noiseReavealCoroutine != null)
             {
                 StopCoroutine(_noiseReavealCoroutine);
@@ -84,7 +84,7 @@ namespace FogOfWar
                     float u = x / (float) (_gridResolution - 1);
                     float v = y / (float) (_gridResolution - 1);
 
-                    _revealHandler.RevealAtUV(new Vector2(u, v));
+                    _revealHandler.RevealAtUV(new Vector2(u, v), PIZEL_SIZE);
                     yield return new WaitForSeconds(_delayBetweenReveals);
                 }
             }

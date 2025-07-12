@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using System.Collections;
 using FogOfWar;
+using Level;
 using UnityEngine;
 
 namespace Scanner
@@ -14,19 +16,36 @@ namespace Scanner
 
         [SerializeField] private float _scanLength = 5f;
         [SerializeField] private float _scanOffset = 1f;
-        [SerializeField] private float _depletionRate = 0.1f;
+        [SerializeField] private float _depletionRate = 0.001f;
         [SerializeField] private float _scanRateSeconds = 0.01f;
 
         [SerializeField] private float _pixelSizeIncrease = 0.1f;
+        [SerializeField] private float _zoomPixelRelation = 1f;
 
         private bool _linearScan = false;
         private bool _canScan = false;
         private Coroutine _scanCoroutine;
 
+        float _scanPixelSize = 15f;
+        private float _scanMultiplier = 1f;
+
+        private float PixelSize => _scanPixelSize * _scanMultiplier;
+
         public void Awake()
         {
             _scanner.ScanStart += OnScanStart;
             _scanner.ScanEnd += OnScanEnd;
+        }
+
+        private void LateUpdate()
+        {
+            float zoom = GameManager.Instance.CameraController.GetCameraZoom();
+            _scanPixelSize = zoom * _zoomPixelRelation;
+
+            if (_canScan)
+            {
+                GameManager.Instance.PointerPlayer.Scale(zoom);
+            }
         }
 
         public void Reset()
@@ -37,11 +56,15 @@ namespace Scanner
         public void Activate()
         {
             _canScan = true;
+
+            GameManager.Instance.PointerPlayer.SetUnscanningMaterial();
         }
 
         public void DeActivate()
         {
             _canScan = false;
+            GameManager.Instance.PointerPlayer.SetDefaultMaterial();
+            GameManager.Instance.PointerPlayer.Scale(0f);
         }
 
         public void SetLinearScan(bool isLinear)
@@ -51,13 +74,16 @@ namespace Scanner
 
         private void OnScanEnd()
         {
-            if (_scanCoroutine != null)
+            if (_scanCoroutine == null)
             {
-                StopCoroutine(_scanCoroutine);
-                _scanCoroutine = null;
-
-                _revealTransparencyHandler.PaintSquareSizeMultiplier = 1f;
+                return;
             }
+
+            StopCoroutine(_scanCoroutine);
+            _scanCoroutine = null;
+
+            _scanMultiplier = 1f;
+            GameManager.Instance.PointerPlayer.SetUnscanningMaterial();
         }
 
         private void OnScanStart()
@@ -76,6 +102,8 @@ namespace Scanner
             {
                 StopCoroutine(_scanCoroutine);
             }
+
+            GameManager.Instance.PointerPlayer.SetScanningMaterial();
 
             if (_linearScan)
             {
@@ -101,12 +129,11 @@ namespace Scanner
                 {
                     Vector3 position = _scanner.transform.position;
                     position += _scanner.transform.forward * i * _scanOffset;
-                    _revealTransparencyHandler.RevealAtPoint(position);
+                    _revealTransparencyHandler.RevealAtPoint(position, _scanPixelSize);
                     yield return new WaitForSeconds(_scanRateSeconds / (iterations * 10f));
                 }
 
-                _scanBattery.Decrease(_depletionRate * _revealTransparencyHandler.PaintSquareSizeMultiplier *
-                                      Time.fixedDeltaTime);
+                DecreaseBattery();
                 yield return new WaitForSeconds(_scanRateSeconds);
                 IncreaseRevealPixelArea();
                 iterations++;
@@ -122,16 +149,22 @@ namespace Scanner
                     yield break;
                 }
 
-                _scanBattery.Decrease(_depletionRate * Time.fixedDeltaTime);
-                _revealTransparencyHandler.RevealAtPoint(_scanner.transform.position);
+                DecreaseBattery();
+                _revealTransparencyHandler.RevealAtPoint(_scanner.transform.position, PixelSize);
                 yield return new WaitForSeconds(_scanRateSeconds);
                 IncreaseRevealPixelArea();
             }
         }
 
+        private void DecreaseBattery()
+        {
+            _scanBattery.Decrease(_depletionRate * PixelSize * Time.fixedDeltaTime);
+        }
+
         private void IncreaseRevealPixelArea()
         {
-            _revealTransparencyHandler.PaintSquareSizeMultiplier += _pixelSizeIncrease * Time.fixedDeltaTime;
+            //testing without scaling
+            //_scanMultiplier += _pixelSizeIncrease * Time.fixedDeltaTime;
         }
     }
 }

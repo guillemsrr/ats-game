@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using UnityEngine;
 
 namespace Scanner
@@ -8,26 +9,50 @@ namespace Scanner
     {
         [SerializeField] private float _charge;
         [SerializeField] private Scanner _scanner;
+        [SerializeField] private float _defaultDecreaseRatio = 0.1f;
 
-        [Header("Frame Segments")] public Transform topLine;
-        public Transform rightLine;
-        public Transform bottomLine;
-        public Transform leftLine;
+        [Header("Line Segments")] public Transform _topLine;
+        public Transform _rightLine;
+        public Transform _bottomLine;
+        public Transform _leftLine;
 
-        [Header("Settings")] public float maxBattery = 5f;
-        private float currentBattery;
+        private const float MAX_BATTERY = 1f;
+        private float _currentBattery;
 
-        private float segmentPercent => currentBattery / maxBattery;
+        private float SegmentPercent => _currentBattery / MAX_BATTERY;
 
-        private Vector3 topScale, rightScale, bottomScale, leftScale;
+        private Vector3 _topScale, _rightScale, _bottomScale, _leftScale;
+
+        private float _decreaseRatioMultiplier = 0f;
 
         public void RechargeBattery()
         {
-            currentBattery = maxBattery;
+            _currentBattery = MAX_BATTERY;
             UpdateFrameVisual();
         }
 
-        public bool IsDepleted() => currentBattery <= 0;
+        public bool IsDepleted() => _currentBattery <= 0;
+
+        private void Start()
+        {
+            _currentBattery = MAX_BATTERY;
+
+            // Store initial scales
+            _topScale = _topLine.localScale;
+            _rightScale = _rightLine.localScale;
+            _bottomScale = _bottomLine.localScale;
+            _leftScale = _leftLine.localScale;
+        }
+
+        private void Update()
+        {
+            Decrease(_decreaseRatioMultiplier * _defaultDecreaseRatio * Time.deltaTime);
+        }
+
+        private void LateUpdate()
+        {
+            UpdateFrameVisual();
+        }
 
         public void Activate()
         {
@@ -37,32 +62,27 @@ namespace Scanner
         {
         }
 
+        //TODO: call this!
+        public void SetDecreaseRatio(float ratioMultiplier)
+        {
+            _decreaseRatioMultiplier = ratioMultiplier;
+        }
+
         public void Decrease(float rate)
         {
-            currentBattery -= rate;
-            currentBattery = Mathf.Max(currentBattery, 0);
-            UpdateFrameVisual();
+            _currentBattery -= rate;
+            _currentBattery = Mathf.Max(_currentBattery, 0);
         }
 
-        void Start()
+        private void UpdateFrameVisual()
         {
-            currentBattery = maxBattery;
+            float fill = SegmentPercent * 4f; // Let it go from 0..4
 
-            // Store initial scales
-            topScale = topLine.localScale;
-            rightScale = rightLine.localScale;
-            bottomScale = bottomLine.localScale;
-            leftScale = leftLine.localScale;
-        }
-
-        void UpdateFrameVisual()
-        {
-            float fill = segmentPercent * 4f; // Let it go from 0..4
-
-            topLine.localScale = new Vector3(topScale.x * Mathf.Clamp01(fill - 0f), topScale.y, topScale.z);
-            rightLine.localScale = new Vector3(rightScale.x * Mathf.Clamp01(fill - 1f), rightScale.y, rightScale.z);
-            bottomLine.localScale = new Vector3(bottomScale.x * Mathf.Clamp01(fill - 2f), bottomScale.y, bottomScale.z);
-            leftLine.localScale = new Vector3(leftScale.x * Mathf.Clamp01(fill - 3f), leftScale.y, leftScale.z);
+            _topLine.localScale = new Vector3(_topScale.x * Mathf.Clamp01(fill - 0f), _topScale.y, _topScale.z);
+            _rightLine.localScale = new Vector3(_rightScale.x * Mathf.Clamp01(fill - 1f), _rightScale.y, _rightScale.z);
+            _bottomLine.localScale =
+                new Vector3(_bottomScale.x * Mathf.Clamp01(fill - 2f), _bottomScale.y, _bottomScale.z);
+            _leftLine.localScale = new Vector3(_leftScale.x * Mathf.Clamp01(fill - 3f), _leftScale.y, _leftScale.z);
         }
     }
 }

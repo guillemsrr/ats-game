@@ -8,14 +8,11 @@ namespace FogOfWar
         [SerializeField] private RenderTexture _maskRenderTexture;
         [SerializeField] private Texture2D _circularBrushTexture;
         [SerializeField] private LayerMask _revealLayerMask;
-        
-        public float PaintSquareSize { get; set; } = 15f;
-        public float PaintSquareSizeMultiplier { get; set; } = 1f;
 
         private Vector3? _lastRevealPoint;
         private Ray? _lastRay;
         private RaycastHit? _lastHit;
-        
+
         private void OnDrawGizmos()
         {
             if (_lastRevealPoint.HasValue)
@@ -49,28 +46,27 @@ namespace FogOfWar
             RenderTexture.active = null;
         }
 
-        public void RevealAtPoint(Vector3 worldPos)
+        public void RevealAtPoint(Vector3 worldPos, float pixelSize)
         {
             _lastRevealPoint = worldPos;
-            
+
             Ray ray = new Ray(worldPos + Vector3.up * 50f, Vector3.down);
             _lastRay = ray;
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _revealLayerMask))
             {
                 _lastHit = hit;
-                RevealAtUV(hit.textureCoord);
+                RevealAtUV(hit.textureCoord, pixelSize);
             }
         }
 
-        public void RevealAtUV(Vector2 uv)
+        public void RevealAtUV(Vector2 uv, float pixelSize)
         {
             int px = Mathf.FloorToInt(uv.x * _maskRenderTexture.width);
             int py = Mathf.FloorToInt((1f - uv.y) * _maskRenderTexture.height);
 
-            float pixelSize = PaintSquareSize * PaintSquareSizeMultiplier / 2f;
-            Rect rect = new Rect(px - pixelSize, py - pixelSize, PaintSquareSize * PaintSquareSizeMultiplier,
-                PaintSquareSize * PaintSquareSizeMultiplier);
+            Rect rect = new Rect(px - pixelSize / 2f, py - pixelSize / 2f, pixelSize,
+                pixelSize);
 
             RenderTexture.active = _maskRenderTexture;
 
