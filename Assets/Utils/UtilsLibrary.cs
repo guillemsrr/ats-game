@@ -11,7 +11,8 @@ namespace Utils
         {
             if (array == null || array.Length == 0)
             {
-                throw new System.ArgumentException("Array cannot be null or empty");
+                return default;
+                //throw new System.ArgumentException("Array cannot be null or empty");
             }
 
             return array[Random.Range(0, array.Length)];
@@ -21,7 +22,8 @@ namespace Utils
         {
             if (list == null || list.Count == 0)
             {
-                throw new System.ArgumentException("List cannot be null or empty");
+                return default;
+                //throw new System.ArgumentException("List cannot be null or empty");
             }
 
             return list[Random.Range(0, list.Count)];
