@@ -39,6 +39,11 @@ namespace Questions
 
         private IEnumerator AddRequirement(RequirementPoco requirementData)
         {
+            if (requirementData.Description == null)
+            {
+                yield break;
+            }
+
             Requirement requirement = Instantiate(_requirementModel, transform);
             requirement.transform.localPosition = new Vector3(0, 0, _currentHeight);
             requirement.Text.SetText(requirementData.Description);
