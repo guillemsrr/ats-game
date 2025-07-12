@@ -3,9 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Utils;
 
 namespace Resume.Data.Requirements
@@ -21,33 +22,31 @@ namespace Resume.Data.Requirements
             return resumeData.Skills.Length > 0;
         }
 
-        public override string GetDescription(ResumeData resumeData, bool isMet)
+        public override async Task<string> GetDescription(ResumeData resumeData, bool isMet)
         {
-            List<string> existingSkills = resumeData.Skills
-                .Split(',')
-                .Select(skill => skill.Trim())
-                .Where(skill => !string.IsNullOrEmpty(skill))
-                .ToList();
+            string[] existingSkills = resumeData.Skills;
 
             LocalizedString requirementDescription = UtilsLibrary.RandomElement(_skillDescriptions);
 
             string skill;
-            if (isMet && existingSkills.Count > 0)
+            if (isMet && existingSkills.Length > 0)
             {
                 skill = UtilsLibrary.RandomElement(existingSkills);
             }
             else
             {
-                skill = GetMissingSkill(resumeData, existingSkills);
+                skill = GetMissingSkill(resumeData, existingSkills.ToList());
             }
 
-            string description = requirementDescription.GetLocalizedString(skill);
-            if (string.IsNullOrWhiteSpace(description))
+            AsyncOperationHandle<string> localizedStringAsync = requirementDescription.GetLocalizedStringAsync(skill);
+            await localizedStringAsync.Task;
+
+            if (string.IsNullOrWhiteSpace(localizedStringAsync.Result))
             {
-                description = requirementDescription.TableEntryReference;
+                return requirementDescription.TableEntryReference;
             }
 
-            return description;
+            return localizedStringAsync.Result;
         }
 
         private string GetMissingSkill(ResumeData resumeData, List<string> existingSkills)

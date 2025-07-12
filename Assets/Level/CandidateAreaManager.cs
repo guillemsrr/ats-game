@@ -52,9 +52,9 @@ namespace Level
 
             AudioManager.Instance.PlayInGameMusic();
 
-            _returnButton.Button.Activate();
-            _fitCanditateButton.Button.Activate();
-            _unfitCanditateButton.Button.Activate();
+            _returnButton.Show();
+            _fitCanditateButton.Show();
+            _unfitCanditateButton.Show();
 
             _scanManager.Activate();
         }

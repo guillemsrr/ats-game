@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using System.Collections.Generic;
 using Resume.Data;
 using UnityEngine.Localization;
@@ -15,13 +16,13 @@ namespace Resume
         public string Email = "";
         public int MobileNumber = 0;
         public LocalizedString Summary = new();
-        public string Skills = "";
-        public string SoftSkills = "";
+        public string[] Skills = Array.Empty<string>();
+        public LocalizedString[] SoftSkills = Array.Empty<LocalizedString>();
 
-        public WorkExperience[] WorkExperiences = new WorkExperience[0];
+        public WorkExperience[] WorkExperiences = Array.Empty<WorkExperience>();
         public FunnyExperience FunnyExperience = null;
-        public EducationExperience[] EducationExperiences = new EducationExperience[0];
-        public SectionData[] Sections = new SectionData[0];
+        public EducationExperience[] EducationExperiences = Array.Empty<EducationExperience>();
+        public SectionData[] Sections = Array.Empty<SectionData>();
 
         public JobArchetype JobArchetype = null;
         public List<ResumeSectionType> SectionTypes = new();

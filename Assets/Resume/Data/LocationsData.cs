@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
 using Utils;
@@ -27,12 +28,19 @@ namespace Resume.ScriptableObjects
     {
         public List<StatesListByCountry> Locations;
 
-        public string GetRandomLocation()
+        public async Task<string> GetRandomLocation()
         {
             var country = UtilsLibrary.RandomElement(Locations.ToArray());
             var state = UtilsLibrary.RandomElement(country.States);
-            return UtilsLibrary.RandomElement(state.Cities).GetLocalizedString() + ", " + state.State.
-                GetLocalizedString() + ", " + country.Country.GetLocalizedString();
+            var city = UtilsLibrary.RandomElement(state.Cities);
+
+            var cityOp = city.GetLocalizedStringAsync();
+            var stateOp = state.State.GetLocalizedStringAsync();
+            var countryOp = country.Country.GetLocalizedStringAsync();
+
+            await Task.WhenAll(cityOp.Task, stateOp.Task, countryOp.Task);
+
+            return $"{cityOp.Result}, {stateOp.Result}, {countryOp.Result}";
         }
     }
 }

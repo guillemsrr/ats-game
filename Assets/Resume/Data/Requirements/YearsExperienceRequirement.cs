@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Utils;
 
 namespace Resume.Data.Requirements
@@ -17,7 +19,7 @@ namespace Resume.Data.Requirements
             return resumeData.WorkExperiences.Length > 0;
         }
 
-        public override string GetDescription(ResumeData resumeData, bool isMet)
+        public override async Task<string> GetDescription(ResumeData resumeData, bool isMet)
         {
             int actualYears = CalculateTotalExperienceYears(resumeData);
             int requiredYears;
@@ -31,14 +33,15 @@ namespace Resume.Data.Requirements
             }
 
             LocalizedString template = UtilsLibrary.RandomElement(_yearsDescriptions);
-            string description = template.GetLocalizedStringAsync(requiredYears.ToString());
+            AsyncOperationHandle<string> localizedStringAsync = template.GetLocalizedStringAsync(requiredYears.ToString());
+            await localizedStringAsync.Task;
 
-            if (string.IsNullOrWhiteSpace(description))
+            if (string.IsNullOrWhiteSpace(localizedStringAsync.Result))
             {
-                description = template.TableEntryReference;
+                return template.TableEntryReference;
             }
 
-            return description;
+            return localizedStringAsync.Result;
         }
 
         private int CalculateTotalExperienceYears(ResumeData resumeData)

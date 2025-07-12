@@ -29,10 +29,10 @@ namespace Resume.Data
             return Skills.OrderBy(x => Random.value).Take(count).ToArray();
         }
 
-        public string[] GetRandomSoftSkills(int max)
+        public LocalizedString[] GetRandomSoftSkills(int max)
         {
             int count = Random.Range(1, max);
-            return SoftSkills.Select(x => x.GetLocalizedString()).OrderBy(x => Random.value).Take(count).ToArray();
+            return SoftSkills.Select(x => x).OrderBy(x => Random.value).Take(count).ToArray();
         }
     }
 }

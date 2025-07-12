@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FogOfWar;
 using Level.Progression;
 using Menu;
@@ -120,16 +122,16 @@ namespace Level
             levelObject.SetActive(true);*/
         }
 
-        private void GenerateResume()
+        private async void GenerateResume()
         {
             var archetype = _resumeGenerator.GetRandomLevelArchetype(_currentLevel);
-            ResumeData resumeData = _resumeGenerator.GenerateResume(archetype);
+            ResumeData resumeData = await _resumeGenerator.GenerateResume(archetype);
 
             bool allMet = Random.value > Mathf.Clamp01(0.25f + _currentLevel * 0.1f);
             //allMet = true;
-            
+
             float percentageMet = allMet ? 1f : Random.Range(0, 0.9f);
-            List<RequirementPoco> requirements = _resumeGenerator.GetRandomRequirements(resumeData, archetype,
+            List<RequirementPoco> requirements = await _resumeGenerator.GetRandomRequirements(resumeData, archetype,
                 percentageMet);
             _requirementsHandler.SetRequirements(requirements, allMet);
             _paperHandler.SetDefault();
@@ -140,7 +142,7 @@ namespace Level
         private void OnFitClick(ButtonHandler arg0)
         {
             HandleFitnessBase();
-            
+
             if (!_requirementsHandler.IsFit())
             {
                 HandleIncorrectLevel();

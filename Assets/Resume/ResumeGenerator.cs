@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Resume.Base;
 using Resume.Data;
 using Resume.Data.Requirements;
@@ -60,7 +61,7 @@ namespace Resume
             return archetype;
         }
 
-        public ResumeData GenerateResume(LevelArchetype archetype)
+        public async Task<ResumeData> GenerateResume(LevelArchetype archetype)
         {
             ResumeData resume = new ResumeData();
             resume.FullName = _namesData.GetRandomName();
@@ -73,15 +74,12 @@ namespace Resume
 
             resume.Role = UtilsLibrary.RandomElement(jobArchetype.JobTitles);
 
-            resume.Location = _locationsData.GetRandomLocation();
+            resume.Location = await _locationsData.GetRandomLocation();
             resume.Email = UtilsLibrary.RandomElement(_emailsData.Emails);
             resume.MobileNumber = Random.Range(100000000, 999999999);
 
-            string[] skills = jobArchetype.GetRandomSkills(3);
-            resume.Skills = GetSkillsJoined(skills);
-
-            string[] softSkills = jobArchetype.GetRandomSoftSkills(3);
-            resume.SoftSkills = GetSkillsJoined(softSkills);
+            resume.Skills = jobArchetype.GetRandomSkills(3);
+            resume.SoftSkills = jobArchetype.GetRandomSoftSkills(3);
 
             List<ResumeSectionType> allSections = new()
             {
@@ -393,11 +391,16 @@ namespace Resume
         {
             AddSectionText("Skills");
 
-            TextHandler skillsText = AddText(resume.Skills);
+            string skills = GetSkillsJoined(resume.Skills);
+            TextHandler skillsText = AddText(skills);
             SetFontSize(skillsText, ShortFontSize);
             _location.y += skillsText.TextHeight;
 
-            TextHandler softskillsText = AddText(resume.SoftSkills);
+            string[] localizedSkills =
+                resume.SoftSkills.Select(skill => skill.GetLocalizedStringAsync().Result).ToArray();
+            skills = GetSkillsJoined(localizedSkills);
+
+            TextHandler softskillsText = AddText(skills);
             SetFontSize(softskillsText, ShortFontSize);
             _location.y += softskillsText.TextHeight;
 
@@ -479,18 +482,38 @@ namespace Resume
             return text;
         }
 
-        public List<RequirementPoco> GetRandomRequirements(ResumeData resumeData, LevelArchetype archetype,
+        public async Task<List<RequirementPoco>> GetRandomRequirements(ResumeData resumeData, LevelArchetype archetype,
             float percentageMet)
         {
+            bool atLeastOneIsNotMet = percentageMet < 1f;
+
             List<RequirementData> requirementData =
                 archetype.GetRandomRequirements(resumeData, Mathf.Approximately(percentageMet, 1f));
+
             List<RequirementPoco> requirements = new List<RequirementPoco>();
-            foreach (RequirementData requirement in requirementData)
+
+            int forceUnmetIndex = -1;
+            if (atLeastOneIsNotMet && requirementData.Count > 0)
             {
-                bool isMet = Random.value < percentageMet;
-                string description = requirement.GetDescription(resumeData, isMet);
-                RequirementPoco req = new RequirementPoco(description);
-                requirements.Add(req);
+                forceUnmetIndex = Random.Range(0, requirementData.Count);
+            }
+
+            for (int i = 0; i < requirementData.Count; i++)
+            {
+                RequirementData requirement = requirementData[i];
+
+                bool isMet;
+                if (i == forceUnmetIndex)
+                {
+                    isMet = false;
+                }
+                else
+                {
+                    isMet = Random.value < percentageMet;
+                }
+
+                string description = await requirement.GetDescription(resumeData, isMet);
+                requirements.Add(new RequirementPoco(description));
             }
 
             return requirements;

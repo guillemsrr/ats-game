@@ -45,6 +45,8 @@ namespace Resume.Data
         public List<RequirementData> GetRandomRequirements(ResumeData resumeData, bool allMet = true)
         {
             List<RequirementData> requirements = new List<RequirementData>();
+            //requirements.Add(_requirements[2]);
+            //return requirements;
             
             int min = Mathf.Clamp(Level - 1, 1, 2);
             int max = Mathf.Clamp(Level + 1, 2, 5);

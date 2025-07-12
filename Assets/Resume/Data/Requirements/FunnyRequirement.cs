@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Utils;
 
 namespace Resume.Data.Requirements
@@ -18,7 +20,7 @@ namespace Resume.Data.Requirements
             return resumeData.SectionTypes.Contains(ResumeSectionType.Experience) && resumeData.FunnyExperience != null;
         }
 
-        public override string GetDescription(ResumeData resumeData, bool isMet)
+        public override async Task<string> GetDescription(ResumeData resumeData, bool isMet)
         {
             // Pick a description template
             LocalizedString descriptionTemplate = UtilsLibrary.RandomElement(_funnyDescriptions);
@@ -43,13 +45,15 @@ namespace Resume.Data.Requirements
 
             if (keyElement != null)
             {
-                string result = descriptionTemplate.GetLocalizedString(keyElement.GetLocalizedString());
-                if (string.IsNullOrWhiteSpace(result))
+                AsyncOperationHandle<string> result = descriptionTemplate.GetLocalizedStringAsync(keyElement.GetLocalizedString());
+                await result.Task;
+                
+                if (string.IsNullOrWhiteSpace(result.Result))
                 {
-                    result = descriptionTemplate.TableEntryReference;
+                    return descriptionTemplate.TableEntryReference;
                 }
 
-                return result;
+                return result.Result;
             }
 
             return null;

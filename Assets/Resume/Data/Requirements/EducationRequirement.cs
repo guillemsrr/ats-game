@@ -2,9 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Resume.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Utils;
 
 namespace Resume.Data.Requirements
@@ -20,7 +22,7 @@ namespace Resume.Data.Requirements
             return resumeData.SectionTypes.Contains(ResumeSectionType.Education);
         }
 
-        public override string GetDescription(ResumeData resumeData, bool isMet)
+        public override async Task<string> GetDescription(ResumeData resumeData, bool isMet)
         {
             List<string> degrees = new List<string>();
             foreach (EducationExperience resumeDataEducationExperience in resumeData.EducationExperiences)
@@ -40,13 +42,15 @@ namespace Resume.Data.Requirements
                 degree = GetMissingDegree(resumeData, degrees);
             }
 
-            string description = requirementDescription.GetLocalizedString(degree);
-            if (string.IsNullOrWhiteSpace(description))
+            AsyncOperationHandle<string> description = requirementDescription.GetLocalizedStringAsync(degree);
+            await description.Task;
+
+            if (string.IsNullOrWhiteSpace(description.Result))
             {
-                description = requirementDescription.TableEntryReference;
+                return requirementDescription.TableEntryReference;
             }
 
-            return description;
+            return description.Result;
         }
 
         private string GetMissingDegree(ResumeData resumeData, List<string> degrees)
