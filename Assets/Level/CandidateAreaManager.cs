@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
-using System;
 using Audio;
 using Menu;
 using Scanner;
 using UnityEngine;
 
-namespace Manager
+namespace Level
 {
     public class CandidateAreaManager : MonoBehaviour
     {
@@ -31,11 +30,13 @@ namespace Manager
         private void Start()
         {
             _returnButton.Hide();
+
+            DeactivateButtons();
         }
 
         private void OnUnFitClick(ButtonHandler arg0)
         {
-            _returnButton.Show();
+            
         }
 
         private void OnFitClick(ButtonHandler arg0)
@@ -45,14 +46,32 @@ namespace Manager
 
         public void Initialize()
         {
+            GameManager.Instance.CameraController.SetTargetZoom(20f);
             GameManager.Instance.CameraController.Center = _areaCenter;
+            GameManager.Instance.PointerPlayer.FindPointLocationsArround(_areaCenter.position);
+
             AudioManager.Instance.PlayInGameMusic();
+
+            _returnButton.Button.Activate();
+            _fitCanditateButton.Button.Activate();
+            _unfitCanditateButton.Button.Activate();
+
+            _scanManager.Activate();
         }
 
         private void Return(ButtonHandler arg0)
         {
             GameManager.Instance.GoToLevelArea();
             _returnButton.Hide();
+
+            DeactivateButtons();
+        }
+
+        void DeactivateButtons()
+        {
+            _returnButton.Button.Deactivate();
+            _fitCanditateButton.Button.Deactivate();
+            _unfitCanditateButton.Button.Deactivate();
         }
 
         private void OnOutOfRevealArea()
@@ -68,7 +87,7 @@ namespace Manager
         {
             GameManager.Instance.CameraController.DettachFromCenter();
             GameManager.Instance.PointerPlayer.SetMoveToMouse(true);
-            
+
             _scanManager.Activate();
             //_scanManager.SetLinearScan(false);
         }

@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
-using System;
 using System.Collections.Generic;
 using FogOfWar;
+using Level.Progression;
 using Menu;
-using Progression;
 using Questions;
 using Resume;
 using Resume.Data.Requirements;
@@ -12,7 +11,7 @@ using Scanner;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Manager
+namespace Level
 {
     public class LevelsManager : MonoBehaviour
     {
@@ -41,7 +40,6 @@ namespace Manager
         [SerializeField] private PaperHandler _paperHandler;
 
         [SerializeField] private CandidateAreaManager _candidateAreaManager;
-
         [SerializeField] private LevelSelectorMenu _levelSelectorMenu;
 
         private int _currentLevel;
@@ -59,13 +57,20 @@ namespace Manager
         private void Start()
         {
             //TEST
-            _currentLevel = 5;
-            GenerateResume();
+            //_currentLevel = 5;
+            //GenerateResume();
         }
 
         private void ReturnToMenu(ButtonHandler arg0)
         {
             GameManager.Instance.GoBackToMenu();
+            _levelSelectorMenu.ActivateButtons();
+
+            _returnToMenuHandler.Button.Deactivate();
+            _proceedButton.Button.Deactivate();
+            _restartButton.Button.Deactivate();
+            _fitCanditateButton.Button.Deactivate();
+            _unfitCanditateButton.Button.Deactivate();
         }
 
         public void StartLevel(int level)
@@ -81,17 +86,14 @@ namespace Manager
 
         private void GenerateLevel()
         {
-            _scanManager.Activate();
-
             _revealTransparencyHandler.ClearRenderTextureToBlack();
-            _revealTransparencyHandler.PaintSquareSize = 15f;
 
             float baseScale = 3.75f;
-            float baseThreshold = 0.48f;
+            float baseThreshold = 0.38f;
             float noiseScale = baseScale + Mathf.Log(1 + _currentLevel) * 1.2f;
             float threshold = baseThreshold + _currentLevel * 0.05f;
             threshold = Mathf.Clamp(threshold, 0.4f, 0.9f);
-            _noiseRevealController.StartReveal(noiseScale, threshold);
+            _noiseRevealController.StartPartialReveal(noiseScale, threshold);
             //Debug.Log("noiseScale " + noiseScale);
 
             GenerateResume();
@@ -111,7 +113,7 @@ namespace Manager
             ResumeData resumeData = _resumeGenerator.GenerateResume(archetype);
 
             bool allMet = Random.value > 0.5f;
-            allMet = true;
+            //allMet = true;
             float percentageMet = allMet ? 1f : Random.Range(0, 0.9f);
             List<RequirementPoco> requirements = _resumeGenerator.GetRandomRequirements(resumeData, archetype,
                 percentageMet);
@@ -137,28 +139,30 @@ namespace Manager
                 return;
             }
 
+            HandleCorrectLevel();
+        }
+
+        private void HandleCorrectLevel()
+        {
             _paperHandler.SetCorrect();
             _proceedButton.Show();
+
+            _progressionHandler.GetLastProgressionLight().SetCorrect();
         }
 
         private void OnUnFitClick(ButtonHandler arg0)
         {
             HandleFitnessBase();
 
-            if (_requirementsHandler.IsFit())
-            {
-                HandleIncorrectLevel();
-                return;
-            }
-
-            _paperHandler.SetCorrect();
-            _proceedButton.Show();
+            //TODO: just go to the next candidate directly?
         }
 
         private void HandleIncorrectLevel()
         {
             _restartButton.Show();
             _paperHandler.SetIncorrect();
+
+            _progressionHandler.GetLastProgressionLight().SetIncorrect();
         }
 
         private void HandleFitnessBase()
@@ -171,16 +175,13 @@ namespace Manager
         private void OnProceedClick(ButtonHandler arg0)
         {
             _proceedButton.Hide();
-            _progressionHandler.NextCandidate();
-
-            _candidateAreaManager.Initialize();
-
-            GameManager.Instance.CameraController.SetTargetZoom(8f);
 
             GenerateLevel();
 
             _fitCanditateButton.Show();
             _unfitCanditateButton.Show();
+
+            _candidateAreaManager.Initialize();
         }
 
         private void OnRestartClick(ButtonHandler arg0)

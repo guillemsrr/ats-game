@@ -8,59 +8,81 @@ namespace Menu
 {
     public class ButtonHandler : MonoBehaviour
     {
-        [SerializeField] private Transform _buttonPivot;
-        [SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private Material _selectedMaterial;
-        [SerializeField] private Material _unSelectedMaterial;
-        [SerializeField] private float _offset;
-
         public UnityAction<ButtonHandler> OnClick;
         public UnityAction OnHoverStart;
         public UnityAction OnHoverEnd;
 
         public bool IsClicked { get; private set; } = false;
 
+        public bool _isActive = true;
+
         private void Awake()
         {
-            DeactivateButton();
+            UnClick();
         }
 
         private void OnMouseEnter()
         {
+            if (!_isActive)
+            {
+                return;
+            }
+
             OnHoverStart?.Invoke();
         }
 
         private void OnMouseExit()
         {
+            if (!_isActive)
+            {
+                return;
+            }
+
             OnHoverEnd?.Invoke();
         }
 
         private void OnMouseDown()
         {
+            if (!_isActive)
+            {
+                return;
+            }
+
             if (!IsClicked)
             {
-                ActivateButton();
+                Click();
             }
             else
             {
-                DeactivateButton();
+                UnClick();
             }
         }
 
-        public void ActivateButton()
+        public void Click()
         {
-            IsClicked = true;
-            _buttonPivot.localPosition -= Vector3.up * _offset;
-            _meshRenderer.material = _selectedMaterial;
-
+            SetClicked();
             OnClick?.Invoke(this);
         }
 
-        public void DeactivateButton()
+        public void UnClick()
         {
             IsClicked = false;
-            _buttonPivot.localPosition = Vector3.zero;
-            _meshRenderer.material = _unSelectedMaterial;
+        }
+
+        public void SetClicked()
+        {
+            IsClicked = true;
+        }
+
+        public void Activate()
+        {
+            _isActive = true;
+        }
+
+        public void Deactivate()
+        {
+            _isActive = false;
+            UnClick();
         }
     }
 }

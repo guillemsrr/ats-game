@@ -23,6 +23,23 @@ namespace Menu
             _catalanButton.OnClick += UpdateLanguage;
         }
 
+        private void Start()
+        {
+            Locale locale = LocalizationSettings.SelectedLocale;
+            if (locale.Identifier == "ca")
+            {
+                _catalanButton.SetClicked();
+            }
+            else if (locale.Identifier == "es")
+            {
+                _spanishButton.SetClicked();
+            }
+            else if (locale.Identifier == "en")
+            {
+                _englishButton.SetClicked();
+            }
+        }
+
         private void UpdateLanguage(ButtonHandler arg0)
         {
             if (arg0 == _englishButton)

@@ -2,12 +2,10 @@
 
 using Audio;
 using FogOfWar;
-using Menu;
 using Player;
-using Scanner;
 using UnityEngine;
 
-namespace Manager
+namespace Level
 {
     public class GameManager : MonoBehaviour
     {
@@ -55,8 +53,7 @@ namespace Manager
         public void GoBackToMenu()
         {
             _cameraController.Center = _menuCameraCenter;
-            _cameraController.SetTargetZoom(15f);
-            _pointerPlayer.SetMoveToMouse(false);
+            _cameraController.SetTargetZoom(13f);
             _pointerPlayer.FindPointLocationsArround(_menuCameraCenter.position);
 
             AudioManager.Instance.PlayMenuMusic();
@@ -72,7 +69,7 @@ namespace Manager
         public void GoToLevelArea()
         {
             _cameraController.Center = _levelCameraCenter;
-            _cameraController.SetTargetZoom(20f);
+            _cameraController.SetTargetZoom(15f);
             _pointerPlayer.FindPointLocationsArround(_levelCameraCenter.position);
 
             AudioManager.Instance.PlayMenuMusic();

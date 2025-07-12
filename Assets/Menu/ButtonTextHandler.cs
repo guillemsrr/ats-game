@@ -24,6 +24,7 @@ namespace Menu
 
         public void Show()
         {
+            Button.Activate();
             gameObject.SetActive(true);
             OnHoverEnd();
         }

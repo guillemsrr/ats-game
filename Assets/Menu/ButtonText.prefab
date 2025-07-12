@@ -303,6 +303,14 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: -2.8136027
       objectReference: {fileID: 0}
+    - target: {fileID: 6843704814338833530, guid: 3a1d255fb94e5f344a7b9ae3cbc0f5ae, type: 3}
+      propertyPath: _buttonPivot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843704814338833530, guid: 3a1d255fb94e5f344a7b9ae3cbc0f5ae, type: 3}
+      propertyPath: _meshRenderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7405875239303875681, guid: 3a1d255fb94e5f344a7b9ae3cbc0f5ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.897
@@ -352,7 +360,8 @@ PrefabInstance:
       value: Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7809977764663639100, guid: 3a1d255fb94e5f344a7b9ae3cbc0f5ae, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a1d255fb94e5f344a7b9ae3cbc0f5ae, type: 3}

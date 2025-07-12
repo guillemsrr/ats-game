@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Manager;
+using Level;
 using Resume.Base;
 using UnityEngine;
 
@@ -35,6 +35,9 @@ namespace Menu
 
                 GameManager.Instance.PrepareLevel(level);
                 _levelText.SetText("Level: " + buttonTextHandler.Text);
+
+                DeactivateButtons();
+                return;
             }
         }
 
@@ -46,6 +49,22 @@ namespace Menu
             }
 
             OnLevelSelected(_levelsButtons[level].Button);
+        }
+
+        public void DeactivateButtons()
+        {
+            foreach (ButtonTextHandler buttonTextHandler in _levelsButtons)
+            {
+                buttonTextHandler.Button.Deactivate();
+            }
+        }
+
+        public void ActivateButtons()
+        {
+            foreach (ButtonTextHandler buttonTextHandler in _levelsButtons)
+            {
+                buttonTextHandler.Button.Activate();
+            }
         }
     }
 }
