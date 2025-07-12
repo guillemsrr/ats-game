@@ -2,17 +2,16 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Localization;
 
 namespace Resume.Data.Requirements
 {
-    public abstract class RequirementData: ScriptableObject
+    public abstract class RequirementData : ScriptableObject
     {
-        public LocalizedString Description;
+        public abstract string GetDescription(ResumeData resumeData, bool isMet);
 
-        public virtual string GetDescription(ResumeData resumeData, bool isMet)
+        public virtual bool CanBeRequired(ResumeData resumeData)
         {
-            return "Description";
+            return false;
         }
     }
 }

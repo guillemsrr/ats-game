@@ -122,12 +122,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2857644247352637432, guid: 3f88ae623504bfb42b7ef299addaea1e, type: 3}
       propertyPath: m_text
-      value: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        when an unknown printer took a galley of type and scrambled it to make a
-        type specimen book. It has survived not only five centuries, but also the
-        leap into electronic typesetting, remaining essentially unchanged. It was
-        popularised in
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2857644247352637432, guid: 3f88ae623504bfb42b7ef299addaea1e, type: 3}
       propertyPath: m_TextWrappingMode

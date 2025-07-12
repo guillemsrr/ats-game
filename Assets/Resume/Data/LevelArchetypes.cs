@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System.Collections.Generic;
-using System.Linq;
 using Resume.Data.Requirements;
 using UnityEngine;
+using Utils;
 
-namespace Resume.ScriptableObjects
+namespace Resume.Data
 {
     [CreateAssetMenu(menuName = "Resume/LevelArchetypes")]
     public class LevelArchetypes : ScriptableObject
@@ -14,13 +14,18 @@ namespace Resume.ScriptableObjects
 
         public LevelArchetype GetRandomArchetype(int level)
         {
-            List<LevelArchetype> matchingArchetypes = _levelArchetypes.Where(a => a.Level == level).ToList();
+            //forcing level atm, TODO design refactor 
+            LevelArchetype levelArchetype = _levelArchetypes[0];
+            levelArchetype.Level = level;
+            return levelArchetype;
+
+            /*List<LevelArchetype> matchingArchetypes = _levelArchetypes.Where(a => a.Level == level).ToList();
             if (matchingArchetypes.Count == 0)
             {
                 return _levelArchetypes[Random.Range(0, _levelArchetypes.Count)];
             }
 
-            return matchingArchetypes[Random.Range(0, matchingArchetypes.Count)];
+            return matchingArchetypes[Random.Range(0, matchingArchetypes.Count)];*/
         }
     }
 
@@ -37,15 +42,35 @@ namespace Resume.ScriptableObjects
             return _jobsDatas[Random.Range(0, _jobsDatas.Length)];
         }
 
-        public List<RequirementData> GetRandomRequirements()
+        public List<RequirementData> GetRandomRequirements(ResumeData resumeData, bool allMet = true)
         {
             List<RequirementData> requirements = new List<RequirementData>();
-            requirements.Add(_requirements[0]);
-            return requirements;
 
-            int count = Random.Range(1, Level + 1);
-            count = _requirements.Length;
-            requirements.AddRange(_requirements.OrderBy(x => Random.value).Take(count));
+            int min = Mathf.Clamp(Level + 1, 1, 3);
+            int max = Mathf.Clamp(Level * 2 + 2, 2, 6);
+            int numberRequirements = Random.Range(min, max);
+
+            List<RequirementData> requirementsPool = new List<RequirementData>(_requirements);
+            int attempts = 0;
+
+            while (requirements.Count < numberRequirements && requirementsPool.Count > 0 && attempts < 100)
+            {
+                RequirementData randomReq = UtilsLibrary.RandomElement(requirementsPool);
+                if (randomReq == null)
+                {
+                    Debug.LogWarning("Skipped null requirement");
+                    requirementsPool.Remove(randomReq);
+                    continue;
+                }
+
+                if (!allMet || randomReq.CanBeRequired(resumeData))
+                {
+                    requirements.Add(randomReq);
+                }
+
+                requirementsPool.Remove(randomReq);
+                attempts++;
+            }
 
             return requirements;
         }

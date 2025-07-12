@@ -3,7 +3,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Resume.Base;
+using Resume.Data;
 using Resume.Data.Requirements;
 using Resume.ScriptableObjects;
 using TMPro;
@@ -49,8 +51,11 @@ namespace Resume
 
         Vector2 _location = new Vector2();
 
+        private int _currentLevel;
+
         public LevelArchetype GetRandomLevelArchetype(int level)
         {
+            _currentLevel = level;
             LevelArchetype archetype = _levelArchetypes.GetRandomArchetype(level);
             return archetype;
         }
@@ -62,34 +67,83 @@ namespace Resume
 
             JobArchetype jobArchetype = archetype.GetJobArchetype();
             resume.JobArchetype = jobArchetype;
-            if (archetype.Level > 1) //although not everybody would add it
+            /*if (archetype.Level > 1) //although not everybody would add it
             {
-                resume.Role = UtilsLibrary.RandomElement(jobArchetype.JobTitles);
-            }
+            }*/
+
+            resume.Role = UtilsLibrary.RandomElement(jobArchetype.JobTitles);
 
             resume.Location = _locationsData.GetRandomLocation();
             resume.Email = UtilsLibrary.RandomElement(_emailsData.Emails);
             resume.MobileNumber = Random.Range(100000000, 999999999);
 
-            List<string> skills = jobArchetype.GetRandomSkills(3);
-            List<string> softSkills = jobArchetype.GetRandomSoftSkills(3);
+            string[] skills = jobArchetype.GetRandomSkills(3);
+            resume.Skills = GetSkillsJoined(skills);
 
-            skills.AddRange(softSkills);
+            string[] softSkills = jobArchetype.GetRandomSoftSkills(3);
+            resume.SoftSkills = GetSkillsJoined(softSkills);
 
+            List<ResumeSectionType> allSections = new()
+            {
+                ResumeSectionType.Summary,
+                ResumeSectionType.Skills,
+                ResumeSectionType.Experience,
+                ResumeSectionType.Education,
+                ResumeSectionType.Projects
+            };
+
+            int minSections =
+                Mathf.Clamp(_currentLevel + 2, 2, allSections.Count); // e.g. level 0 = 2 sections, level 4 = 5
+            int maxSections = Mathf.Clamp(_currentLevel + 3, minSections, allSections.Count); // Add some variability
+
+            int sectionCount = Random.Range(minSections, maxSections + 1);
+
+            List<ResumeSectionType> sections = allSections
+                .OrderBy(_ => Random.value)
+                .Take(sectionCount)
+                .ToList();
+
+            float sectionShuffleRandom = Random.value;
+            if (sectionShuffleRandom > 0.75f)
+            {
+                UtilsLibrary.ShuffleList(sections);
+            }
+
+            resume.SectionTypes = sections;
+
+            //TODO: just add data if it's added in section?
+            resume.Summary = UtilsLibrary.RandomElement(jobArchetype.Summary);
+            resume.WorkExperiences = GenerateRandomWorkExperiences(jobArchetype);
+            resume.FunnyExperience = GenerateRandomFunnyExperience(jobArchetype);
+            resume.EducationExperiences = GenerateRandomEducation(jobArchetype);
+            resume.Sections = GenerateRandomSections(jobArchetype);
+            return resume;
+        }
+
+        private FunnyExperience GenerateRandomFunnyExperience(JobArchetype jobArchetype)
+        {
+            int startYear = Random.Range(2000, 2025);
+            int duration = Random.Range(1, 4);
+            int endYear = startYear + duration;
+
+            FunnyExperience experience = new FunnyExperience();
+            experience.YearStart = startYear;
+            experience.YearEnd = endYear;
+            experience.KeyElement = UtilsLibrary.RandomElement(jobArchetype.FunnyExperiences.KeyElement);
+            experience.Description = UtilsLibrary.RandomElement(jobArchetype.FunnyExperiences.Descriptions);
+            return experience;
+        }
+
+        private static string GetSkillsJoined(string[] skills)
+        {
             string skillsJoined = "";
-            for (int i = 0; i < skills.Count - 1; i++)
+            for (int i = 0; i < skills.Length - 1; i++)
             {
                 skillsJoined += skills[i] + ", ";
             }
 
-            skillsJoined += skills[skills.Count - 1];
-
-            resume.Skills = skillsJoined;
-            resume.Summary = UtilsLibrary.RandomElement(jobArchetype.Summary);
-            resume.WorkExperiences = GenerateRandomWorkExperiences(jobArchetype);
-            resume.EducationExperiences = GenerateRandomEducation(jobArchetype);
-            resume.Sections = GenerateRandomSections(jobArchetype);
-            return resume;
+            skillsJoined += skills[^1];
+            return skillsJoined;
         }
 
         private EducationExperience[] GenerateRandomEducation(JobArchetype jobArchetype)
@@ -140,15 +194,13 @@ namespace Resume
 
                 var companyData = UtilsLibrary.RandomElement(jobArchetype.CompaniesData);
 
-                experiences[i] = new WorkExperience
-                {
-                    YearStart = startYear,
-                    YearEnd = endYear,
-                    Position = UtilsLibrary.RandomElement(jobArchetype.JobTitles),
-
-                    Company = UtilsLibrary.RandomElement(companyData.Companies),
-                    Description = UtilsLibrary.RandomElement(companyData.Descriptions)
-                };
+                WorkExperience experience = new WorkExperience();
+                experience.YearStart = startYear;
+                experience.YearEnd = endYear;
+                experience.Position = UtilsLibrary.RandomElement(jobArchetype.JobTitles);
+                experience.Company = UtilsLibrary.RandomElement(companyData.Companies);
+                experience.Description = UtilsLibrary.RandomElement(companyData.Descriptions);
+                experiences[i] = experience;
             }
 
             return experiences;
@@ -157,7 +209,6 @@ namespace Resume
         private SectionData[] GenerateRandomSections(JobArchetype jobArchetype)
         {
             var sections = new List<SectionData>();
-            //TODO
             return sections.ToArray();
         }
 
@@ -175,12 +226,14 @@ namespace Resume
             _location = new Vector2();
             TextHandler nameText = AddText(resume.FullName);
             SetFontSize(nameText, _nameFontSize);
-            _location.y += LongSpace * 1.5f;
+            yield return nameText.DelayedSizeUpdate();
+
+            _location.y += nameText.TextHeight;
 
             if (!string.IsNullOrEmpty(resume.Role))
             {
                 TextHandler roleText = AddText(resume.Role);
-                SetFontSize(roleText, _nameFontSize * 0.75f);
+                SetFontSize(roleText, _nameFontSize * 0.65f);
 
                 _location.y += LongSpace;
             }
@@ -201,24 +254,9 @@ namespace Resume
                 AddNormalText(mobileNumber);
             }
 
-            List<ResumeSectionType> sectionsOrder = new()
-            {
-                ResumeSectionType.Summary,
-                ResumeSectionType.Skills,
-                ResumeSectionType.Experience,
-                ResumeSectionType.Education,
-                ResumeSectionType.Projects
-            };
-
-            float sectionShuffleRandom = Random.value;
-            if (sectionShuffleRandom > 0.75f)
-            {
-                UtilsLibrary.ShuffleList(sectionsOrder);
-            }
-
             SetRandomAlignment();
 
-            foreach (ResumeSectionType resumeSectionType in sectionsOrder)
+            foreach (ResumeSectionType resumeSectionType in resume.SectionTypes)
             {
                 switch (resumeSectionType)
                 {
@@ -261,10 +299,14 @@ namespace Resume
                 AddSectionText("Education");
                 foreach (var education in resume.EducationExperiences)
                 {
-                    AddNormalText(
+                    TextHandler text = AddText(
                         $"{education.Degree} at {education.School} ({education.YearStart} - {education.YearEnd})");
+                    SetFontSize(text, _normalFontSize);
 
-                    if (!education.Description.IsEmpty)
+                    yield return text.DelayedSizeUpdate();
+                    _location.y += text.TextHeight;
+
+                    if (IsValid(education.Description))
                     {
                         var educationDescription = AddNormalText(education.Description);
                         yield return educationDescription.DelayedSizeUpdate();
@@ -278,24 +320,26 @@ namespace Resume
 
         private IEnumerator GenerateProjectsSection(ResumeData resume)
         {
-            if (resume.Sections.Length > 0)
+            if (resume == null || resume.Sections == null || resume.Sections.Length == 0)
             {
-                AddSectionText("Projects");
-                _location.y += LongSpace;
+                yield break;
+            }
 
-                foreach (var section in resume.Sections)
+            AddSectionText("Projects");
+            _location.y += LongSpace;
+
+            foreach (var section in resume.Sections)
+            {
+                AddSectionText(section.Title);
+                foreach (var experience in section.Entries)
                 {
-                    AddSectionText(section.Title);
-                    foreach (var experience in section.Entries)
-                    {
-                        AddNormalText($"{experience.YearStart} - {experience.YearEnd}");
+                    AddNormalText($"{experience.YearStart} - {experience.YearEnd}");
 
-                        if (!experience.Description.IsEmpty)
-                        {
-                            var projectDescription = AddNormalText(experience.Description);
-                            yield return projectDescription.DelayedSizeUpdate();
-                            _location.y += projectDescription.TextHeight;
-                        }
+                    if (IsValid(experience.Description))
+                    {
+                        var projectDescription = AddNormalText(experience.Description);
+                        yield return projectDescription.DelayedSizeUpdate();
+                        _location.y += projectDescription.TextHeight;
                     }
                 }
             }
@@ -308,38 +352,49 @@ namespace Resume
                 AddSectionText("Experience");
                 foreach (var workExperience in resume.WorkExperiences)
                 {
-                    AddNormalText(
-                        $"{workExperience.Position} at {workExperience.Company} ({workExperience.YearStart} - {workExperience.YearEnd})");
-                    if (!workExperience.Description.IsEmpty)
+                    string textString =
+                        $"{workExperience.Position} at {workExperience.Company} ({workExperience.YearStart} - {workExperience.YearEnd})";
+                    TextHandler text = AddText(textString);
+                    SetFontSize(text, _normalFontSize);
+                    yield return text.DelayedSizeUpdate();
+                    _location.y += text.TextHeight;
+
+                    if (IsValid(workExperience.Description))
                     {
                         var jobdescription = AddNormalText(workExperience.Description);
                         yield return jobdescription.DelayedSizeUpdate();
                         _location.y += jobdescription.TextHeight;
                     }
                 }
-
-                _location.y += LongSpace;
             }
         }
 
-        private object GenerateSkillsSection(ResumeData resume)
+        private bool IsValid(LocalizedString localizedString)
+        {
+            return localizedString != null && !localizedString.IsEmpty;
+        }
+
+        private IEnumerator GenerateSkillsSection(ResumeData resume)
         {
             AddSectionText("Skills");
 
             TextHandler skillsText = AddText(resume.Skills);
             SetFontSize(skillsText, ShortFontSize);
-
-            return skillsText.DelayedSizeUpdate();
             _location.y += skillsText.TextHeight;
+
+            TextHandler softskillsText = AddText(resume.SoftSkills);
+            SetFontSize(softskillsText, ShortFontSize);
+            _location.y += softskillsText.TextHeight;
+
+            yield break;
         }
 
-        private object GenerateSummarySection(ResumeData resume)
+        private IEnumerator GenerateSummarySection(ResumeData resume)
         {
             TextHandler summaryTitleText = AddSectionText("Summary");
-            TextHandler summaryText = AddNormalText(resume.Summary);
-
-            return summaryText.DelayedSizeUpdate();
-
+            TextHandler summaryText = AddText(resume.Summary, _location);
+            SetFontSize(summaryText, _normalFontSize);
+            yield return summaryText.DelayedSizeUpdate();
             _location.y += summaryText.TextHeight;
         }
 
@@ -412,7 +467,8 @@ namespace Resume
         public List<RequirementPoco> GetRandomRequirements(ResumeData resumeData, LevelArchetype archetype,
             float percentageMet)
         {
-            List<RequirementData> requirementData = archetype.GetRandomRequirements();
+            List<RequirementData> requirementData =
+                archetype.GetRandomRequirements(resumeData, Mathf.Approximately(percentageMet, 1f));
             List<RequirementPoco> requirements = new List<RequirementPoco>();
             foreach (RequirementData requirement in requirementData)
             {

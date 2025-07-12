@@ -2,12 +2,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Resume.Data;
 using Resume.Data.Requirements;
+using Resume.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace Resume.ScriptableObjects
+namespace Resume.Data
 {
     [CreateAssetMenu(menuName = "Resume/JobArchetype")]
     public class JobArchetype : ScriptableObject
@@ -21,17 +21,18 @@ namespace Resume.ScriptableObjects
 
         public CompanyData[] CompaniesData;
         public EducationData[] EducationData;
+        public FunnyExperiencesData FunnyExperiences;
 
-        public List<string> GetRandomSkills(int max)
+        public string[] GetRandomSkills(int max)
         {
             int count = Random.Range(1, max);
-            return Skills.OrderBy(x => Random.value).Take(count).ToList();
+            return Skills.OrderBy(x => Random.value).Take(count).ToArray();
         }
 
-        public List<string> GetRandomSoftSkills(int max)
+        public string[] GetRandomSoftSkills(int max)
         {
             int count = Random.Range(1, max);
-            return SoftSkills.Select(x => x.GetLocalizedString()).OrderBy(x => Random.value).Take(count).ToList();
+            return SoftSkills.Select(x => x.GetLocalizedString()).OrderBy(x => Random.value).Take(count).ToArray();
         }
     }
 }

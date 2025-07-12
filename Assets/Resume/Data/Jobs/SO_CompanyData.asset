@@ -13,16 +13,26 @@ MonoBehaviour:
   m_Name: SO_CompanyData
   m_EditorClassIdentifier: 
   Companies:
-  - Company1
-  Descriptions:
-  - m_TableReference:
-      m_TableCollectionName: GUID:2e572a1bc5f6b2847964f10d343728b3
-    m_TableEntryReference:
-      m_KeyId: 1187163059044352
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
+  - Techspire Solutions
+  - QuantumSoft Technologies
+  - NeuralCore Systems
+  - Stratos Dataworks
+  - BugHunters United
+  - Coffee Overflow Ltd.
+  - Infinite Loops Inc.
+  - Keyboard Smashers
+  - Spaghetti Stack Solutions
+  - 404 Not Found LLC
+  - LevelUp Entertainment
+  - LevelUp Entertainment
+  - CrunchTime Unlimited
+  - AAA++ Indie
+  - RageQuit Interactive
+  - "We Promise It\u2019s Not Early Access Ltd."
+  - Two Devs in a Garage
+  - LootBox Lovers Inc.
+  - BrokenHitbox Games
+  Descriptions: []
   references:
     version: 2
     RefIds: []

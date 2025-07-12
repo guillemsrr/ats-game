@@ -12,8 +12,13 @@ namespace Resume.Data.Requirements
     [CreateAssetMenu(menuName = "Resume/Requirements/EducationRequirement")]
     public class EducationRequirement : RequirementData
     {
-        [Tooltip("Templates like 'Candidate must have studied {0}'")] [SerializeField]
+        [Tooltip("Candidate must have studied {0}")] [SerializeField]
         private LocalizedString[] _educationDescriptions;
+
+        public override bool CanBeRequired(ResumeData resumeData)
+        {
+            return resumeData.SectionTypes.Contains(ResumeSectionType.Education);
+        }
 
         public override string GetDescription(ResumeData resumeData, bool isMet)
         {
