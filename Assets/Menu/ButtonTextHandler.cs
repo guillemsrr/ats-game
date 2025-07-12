@@ -2,16 +2,18 @@
 
 using System;
 using Resume.Base;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Menu
 {
-    public class ButtonTextHandler: MonoBehaviour
+    public class ButtonTextHandler : MonoBehaviour
     {
         [SerializeField] private TextHandler _textHandler;
         [SerializeField] private ButtonHandler _buttonHandler;
         [SerializeField] private MeshRenderer _backgroundRenderer;
-        
+        [SerializeField] private GameObject _pointLocation;
+
         public ButtonHandler Button => _buttonHandler;
 
         public string Text => _textHandler.Text;
@@ -20,18 +22,29 @@ namespace Menu
         {
             _buttonHandler.OnHoverStart += OnHoverStart;
             _buttonHandler.OnHoverEnd += OnHoverEnd;
+            _buttonHandler.OnClick += OnButtonClick;
         }
 
         public void Show()
         {
             Button.Activate();
-            gameObject.SetActive(true);
+            _pointLocation.SetActive(true);
+            _textHandler.gameObject.SetActive(true);
             OnHoverEnd();
         }
-        
+
         public void Hide()
         {
-            gameObject.SetActive(false);
+            Button.Deactivate();
+            _pointLocation.SetActive(false);
+            _textHandler.gameObject.SetActive(false);
+        }
+
+        public void SetUnclickable()
+        {
+            Button.Deactivate();
+            _pointLocation.SetActive(false);
+            _textHandler.SetColor(Color.gray);
         }
 
         private void OnHoverStart()
@@ -44,6 +57,11 @@ namespace Menu
         {
             _textHandler.SetColor(Color.white);
             _backgroundRenderer.gameObject.SetActive(false);
+        }
+
+        private void OnButtonClick(ButtonHandler arg0)
+        {
+            OnHoverEnd();
         }
     }
 }

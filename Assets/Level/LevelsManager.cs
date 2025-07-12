@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FogOfWar;
 using Level.Progression;
 using Menu;
+using NUnit.Framework.Constraints;
 using Questions;
 using Resume;
 using Resume.Data.Requirements;
@@ -25,7 +26,6 @@ namespace Level
         [SerializeField] private List<LevelData> _levels;
         [SerializeField] private ResumeGenerator _resumeGenerator;
         [SerializeField] private RequirementsHandler _requirementsHandler;
-        [SerializeField] private RequirementData _requirementData;
         [SerializeField] private ProgressionHandler _progressionHandler;
         [SerializeField] private NoiseRevealController _noiseRevealController;
         [SerializeField] private RevealTransparencyHandler _revealTransparencyHandler;
@@ -41,6 +41,10 @@ namespace Level
 
         [SerializeField] private CandidateAreaManager _candidateAreaManager;
         [SerializeField] private LevelSelectorMenu _levelSelectorMenu;
+
+        [SerializeField] private ScanBattery _scanBattery;
+
+        [SerializeField] private float _levelRelationBatteryDecrease = 0.01f;
 
         private int _currentLevel;
 
@@ -75,10 +79,13 @@ namespace Level
 
         public void StartLevel(int level)
         {
+            _returnToMenuHandler.Button.Activate();
+
             _currentLevel = level;
             _scanManager.Reset();
 
             _progressionHandler.SetMaxProgression(5);
+            _progressionHandler.UnlockLevel(level);
 
             _proceedButton.Show();
             _restartButton.Hide();
@@ -88,8 +95,14 @@ namespace Level
         {
             _revealTransparencyHandler.ClearRenderTextureToBlack();
 
-            float baseScale = 3.75f;
-            float baseThreshold = 0.38f;
+            float baseScale = 3.5f;
+            float baseThreshold = 0.4f;
+            if (_currentLevel <= 1)
+            {
+                baseScale = 5f;
+                baseThreshold = 0.2f;
+            }
+
             float noiseScale = baseScale + Mathf.Log(1 + _currentLevel) * 1.2f;
             float threshold = baseThreshold + _currentLevel * 0.05f;
             threshold = Mathf.Clamp(threshold, 0.4f, 0.9f);
@@ -112,8 +125,9 @@ namespace Level
             var archetype = _resumeGenerator.GetRandomLevelArchetype(_currentLevel);
             ResumeData resumeData = _resumeGenerator.GenerateResume(archetype);
 
-            bool allMet = Random.value > 0.5f;
+            bool allMet = Random.value > Mathf.Clamp01(0.25f + _currentLevel * 0.1f);
             //allMet = true;
+            
             float percentageMet = allMet ? 1f : Random.Range(0, 0.9f);
             List<RequirementPoco> requirements = _resumeGenerator.GetRandomRequirements(resumeData, archetype,
                 percentageMet);
@@ -126,7 +140,7 @@ namespace Level
         private void OnFitClick(ButtonHandler arg0)
         {
             HandleFitnessBase();
-
+            
             if (!_requirementsHandler.IsFit())
             {
                 HandleIncorrectLevel();
@@ -135,7 +149,8 @@ namespace Level
 
             if (_progressionHandler.IsMaxProgression)
             {
-                _levelSelectorMenu.SetLevel(_currentLevel + 1);
+                //TODO: unlock new level
+                _levelSelectorMenu.SetLevel(_currentLevel);
                 return;
             }
 
@@ -147,14 +162,16 @@ namespace Level
             _paperHandler.SetCorrect();
             _proceedButton.Show();
 
-            _progressionHandler.GetLastProgressionLight().SetCorrect();
+            _progressionHandler.NextProgression();
+            _progressionHandler.NextCandidate();
         }
 
         private void OnUnFitClick(ButtonHandler arg0)
         {
             HandleFitnessBase();
 
-            //TODO: just go to the next candidate directly?
+            _progressionHandler.NextCandidate();
+            ProceedNextCandidate();
         }
 
         private void HandleIncorrectLevel()
@@ -170,18 +187,29 @@ namespace Level
             _fitCanditateButton.Hide();
             _unfitCanditateButton.Hide();
             _noiseRevealController.FullReveal();
+
+            _scanBattery.SetDecreaseRatio(0f);
         }
 
         private void OnProceedClick(ButtonHandler arg0)
         {
             _proceedButton.Hide();
 
+            ProceedNextCandidate();
+        }
+
+        private void ProceedNextCandidate()
+        {
             GenerateLevel();
 
             _fitCanditateButton.Show();
             _unfitCanditateButton.Show();
 
             _candidateAreaManager.Initialize();
+
+            float ratio = _levelRelationBatteryDecrease * (_currentLevel - 1);
+            ratio = Mathf.Min(ratio, 0.1f);
+            _scanBattery.SetDecreaseRatio(ratio);
         }
 
         private void OnRestartClick(ButtonHandler arg0)

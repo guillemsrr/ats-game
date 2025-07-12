@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace Audio
 
         Coroutine _fadeOutMusicCoroutine;
         Coroutine _fadeInMusicCoroutine;
+
+        public bool IsMuted { get; private set; }
 
         private void Awake()
         {
@@ -115,6 +118,7 @@ namespace Audio
                 elapsedTime += Time.deltaTime;
                 float percentageComplete = elapsedTime / _fadeDuration;
                 audioSource.volume = Mathf.Lerp(startVolume, fadeTarget, percentageComplete);
+                audioSource.mute = IsMuted;
                 yield return null;
             }
 
@@ -123,6 +127,13 @@ namespace Audio
             {
                 audioSource.Stop();
             }
+        }
+
+        public void ToggleMute()
+        {
+            IsMuted = !IsMuted;
+            _menuAudioSource.mute = IsMuted;
+            _inGameAudioSource.mute = IsMuted;
         }
     }
 }

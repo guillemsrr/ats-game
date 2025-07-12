@@ -9,8 +9,8 @@ namespace Menu
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Material _defaultMaterial;
-        [SerializeField] private Material _incorrectMaterial;
         [SerializeField] private Material _correctMaterial;
+        [SerializeField] private Material _incorrectMaterial;
 
         private void Start()
         {

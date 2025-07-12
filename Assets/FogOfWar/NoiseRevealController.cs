@@ -39,7 +39,7 @@ namespace FogOfWar
 
         private System.Collections.IEnumerator RevealNoisePattern()
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.5f);
 
             for (int y = 0; y < _gridResolution; y++)
             {

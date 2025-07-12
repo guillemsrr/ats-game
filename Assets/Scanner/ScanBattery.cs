@@ -46,7 +46,7 @@ namespace Scanner
 
         private void Update()
         {
-            Decrease(_decreaseRatioMultiplier * _defaultDecreaseRatio * Time.deltaTime);
+            Decrease(_defaultDecreaseRatio * _decreaseRatioMultiplier * Time.deltaTime);
         }
 
         private void LateUpdate()
@@ -62,7 +62,6 @@ namespace Scanner
         {
         }
 
-        //TODO: call this!
         public void SetDecreaseRatio(float ratioMultiplier)
         {
             _decreaseRatioMultiplier = ratioMultiplier;

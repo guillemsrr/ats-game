@@ -28,15 +28,15 @@ namespace Menu
             Locale locale = LocalizationSettings.SelectedLocale;
             if (locale.Identifier == "ca")
             {
-                _catalanButton.SetClicked();
+                //_catalanButton mark selected?
             }
             else if (locale.Identifier == "es")
             {
-                _spanishButton.SetClicked();
+                //_spanishButton mark selected?
             }
             else if (locale.Identifier == "en")
             {
-                _englishButton.SetClicked();
+                //_englishButton mark selected?
             }
         }
 

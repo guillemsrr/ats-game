@@ -51,6 +51,7 @@ MonoBehaviour:
   _textHandler: {fileID: 7208682373211246113}
   _buttonHandler: {fileID: 4078202540455554030}
   _backgroundRenderer: {fileID: 1315992877954884200}
+  _pointLocation: {fileID: 1989254157651962402}
 --- !u!1 &6585946127897210657
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +483,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
+--- !u!1 &1989254157651962402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6964619897704871519, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
+  m_PrefabInstance: {fileID: 8879986826648001661}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5397000229001866409 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970fcdbbf7a44b88b4e17a82578e699f, type: 3}
+  m_Name: SO_Funny Requirement
+  m_EditorClassIdentifier: 
+  _funnyDescriptions:
+  - m_TableReference:
+      m_TableCollectionName: GUID:2e572a1bc5f6b2847964f10d343728b3
+    m_TableEntryReference:
+      m_KeyId: 1528430813036544
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

@@ -45,9 +45,9 @@ namespace Resume.Data
         public List<RequirementData> GetRandomRequirements(ResumeData resumeData, bool allMet = true)
         {
             List<RequirementData> requirements = new List<RequirementData>();
-
-            int min = Mathf.Clamp(Level + 1, 1, 3);
-            int max = Mathf.Clamp(Level * 2 + 2, 2, 6);
+            
+            int min = Mathf.Clamp(Level - 1, 1, 2);
+            int max = Mathf.Clamp(Level + 1, 2, 5);
             int numberRequirements = Random.Range(min, max);
 
             List<RequirementData> requirementsPool = new List<RequirementData>(_requirements);

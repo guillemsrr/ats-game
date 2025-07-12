@@ -12,14 +12,11 @@ namespace Menu
         public UnityAction OnHoverStart;
         public UnityAction OnHoverEnd;
 
-        public bool IsClicked { get; private set; } = false;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _hoverClip;
+        [SerializeField] private AudioClip _clickClip;
 
         public bool _isActive = true;
-
-        private void Awake()
-        {
-            UnClick();
-        }
 
         private void OnMouseEnter()
         {
@@ -28,6 +25,7 @@ namespace Menu
                 return;
             }
 
+            _audioSource.PlayOneShot(_hoverClip);
             OnHoverStart?.Invoke();
         }
 
@@ -48,30 +46,13 @@ namespace Menu
                 return;
             }
 
-            if (!IsClicked)
-            {
-                Click();
-            }
-            else
-            {
-                UnClick();
-            }
+            Click();
         }
 
         public void Click()
         {
-            SetClicked();
+            _audioSource.PlayOneShot(_clickClip);
             OnClick?.Invoke(this);
-        }
-
-        public void UnClick()
-        {
-            IsClicked = false;
-        }
-
-        public void SetClicked()
-        {
-            IsClicked = true;
         }
 
         public void Activate()
@@ -82,7 +63,6 @@ namespace Menu
         public void Deactivate()
         {
             _isActive = false;
-            UnClick();
         }
     }
 }

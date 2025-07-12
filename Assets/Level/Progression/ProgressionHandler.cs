@@ -17,14 +17,18 @@ namespace Level.Progression
 
         private int _maxProgression;
         private int _currentProgression;
-        public bool IsMaxProgression => _currentProgression >= _maxProgression;
+        private int _currentCandidate;
+        public bool IsMaxProgression => _currentProgression >= _maxProgression - 1;
 
         private List<ButtonLightHandler> _progressionLights;
+
+        private const string LevelKey = "UnlockedLevel";
 
         public void SetMaxProgression(int maxProgression)
         {
             _maxProgression = maxProgression;
             _currentProgression = 0;
+            _currentCandidate = 0;
             NextCandidate();
 
             _progressionLights = new List<ButtonLightHandler>();
@@ -41,15 +45,41 @@ namespace Level.Progression
             }
         }
 
+        public void NextProgression()
+        {
+            GetLastProgressionLight().SetCorrect();
+            _currentProgression++;
+        }
+
         public void NextCandidate()
         {
-            _currentProgression++;
-            _candidateText.SetText("Candidate #" + (_currentProgression));
+            _currentCandidate++;
+            _candidateText.SetText("Candidate #" + (_currentCandidate));
         }
 
         public ButtonLightHandler GetLastProgressionLight()
         {
-            return _progressionLights[_currentProgression - 1];
+            return _progressionLights[_currentProgression];
+        }
+
+        public static int GetUnlockedLevel()
+        {
+            return PlayerPrefs.GetInt(LevelKey);
+        }
+
+        public static void ResetProgress()
+        {
+            PlayerPrefs.DeleteKey(LevelKey);
+        }
+
+        public void UnlockLevel(int level)
+        {
+            int current = GetUnlockedLevel();
+            if (level > current)
+            {
+                PlayerPrefs.SetInt(LevelKey, level);
+                PlayerPrefs.Save();
+            }
         }
     }
 }

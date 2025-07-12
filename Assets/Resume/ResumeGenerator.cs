@@ -209,6 +209,7 @@ namespace Resume
         private SectionData[] GenerateRandomSections(JobArchetype jobArchetype)
         {
             var sections = new List<SectionData>();
+            //TODO
             return sections.ToArray();
         }
 
@@ -227,15 +228,14 @@ namespace Resume
             TextHandler nameText = AddText(resume.FullName);
             SetFontSize(nameText, _nameFontSize);
             yield return nameText.DelayedSizeUpdate();
-
             _location.y += nameText.TextHeight;
 
             if (!string.IsNullOrEmpty(resume.Role))
             {
                 TextHandler roleText = AddText(resume.Role);
-                SetFontSize(roleText, _nameFontSize * 0.65f);
-
-                _location.y += LongSpace;
+                SetFontSize(roleText, _sectionFontSize * 1.1f);
+                yield return roleText.DelayedSizeUpdate();
+                _location.y += roleText.TextHeight;
             }
 
             if (!string.IsNullOrEmpty(resume.Location))
@@ -313,8 +313,6 @@ namespace Resume
                         _location.y += educationDescription.TextHeight;
                     }
                 }
-
-                _location.y += LongSpace;
             }
         }
 
@@ -326,7 +324,6 @@ namespace Resume
             }
 
             AddSectionText("Projects");
-            _location.y += LongSpace;
 
             foreach (var section in resume.Sections)
             {
@@ -365,6 +362,24 @@ namespace Resume
                         yield return jobdescription.DelayedSizeUpdate();
                         _location.y += jobdescription.TextHeight;
                     }
+                }
+
+                if (resume.FunnyExperience != null)
+                {
+                    var keyElementOp = resume.FunnyExperience.KeyElement.GetLocalizedStringAsync();
+                    yield return keyElementOp;
+                    string keyElement = keyElementOp.Result;
+
+                    var descriptionOp = resume.FunnyExperience.Description.GetLocalizedStringAsync(keyElement);
+                    yield return descriptionOp;
+                    string funnyText = descriptionOp.Result;
+
+                    funnyText += $" ({resume.FunnyExperience.YearStart} - {resume.FunnyExperience.YearEnd})";
+
+                    TextHandler text = AddText(funnyText);
+                    SetFontSize(text, _normalFontSize);
+                    yield return text.DelayedSizeUpdate();
+                    _location.y += text.TextHeight;
                 }
             }
         }

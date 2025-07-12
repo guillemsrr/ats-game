@@ -46,7 +46,7 @@ namespace Player
                 return;
             }
 
-            _pointer.TargetPointLocation.Button.UnClick();
+            //_pointer.TargetPointLocation.Button.UnClick();
         }
 
         bool CheckTarget()

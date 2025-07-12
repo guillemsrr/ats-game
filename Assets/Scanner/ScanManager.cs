@@ -22,6 +22,9 @@ namespace Scanner
         [SerializeField] private float _pixelSizeIncrease = 0.1f;
         [SerializeField] private float _zoomPixelRelation = 1f;
 
+        [SerializeField] private AudioSource _scanAudioSource;
+        [SerializeField] private AudioClip _scanAudioClip;
+
         private bool _linearScan = false;
         private bool _canScan = false;
         private Coroutine _scanCoroutine;
@@ -79,6 +82,8 @@ namespace Scanner
                 return;
             }
 
+            _scanAudioSource.Stop();
+
             StopCoroutine(_scanCoroutine);
             _scanCoroutine = null;
 
@@ -102,6 +107,10 @@ namespace Scanner
             {
                 StopCoroutine(_scanCoroutine);
             }
+
+            _scanAudioSource.clip = _scanAudioClip;
+            _scanAudioSource.loop = true;
+            _scanAudioSource.Play();
 
             GameManager.Instance.PointerPlayer.SetScanningMaterial();
 

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Level;
+using Level.Progression;
 using Resume.Base;
 using UnityEngine;
 
@@ -20,6 +21,31 @@ namespace Menu
             {
                 buttonHandler.Button.OnClick += OnLevelSelected;
             }
+        }
+
+        private void Start()
+        {
+            UpdateLevelButtonsUnlocked();
+        }
+
+        private void UpdateLevelButtonsUnlocked()
+        {
+            int maxLevel = ProgressionHandler.GetUnlockedLevel();
+
+            for (int i = 0; i < _levelsButtons.Count; i++)
+            {
+                if (i < maxLevel)
+                {
+                    _levelsButtons[i].Show();
+                }
+                else
+                {
+                    _levelsButtons[i].SetUnclickable();
+                }
+            }
+
+            _levelsButtons[0].Show();
+
         }
 
         private void OnLevelSelected(ButtonHandler button)
@@ -65,6 +91,8 @@ namespace Menu
             {
                 buttonTextHandler.Button.Activate();
             }
+
+            UpdateLevelButtonsUnlocked();
         }
     }
 }

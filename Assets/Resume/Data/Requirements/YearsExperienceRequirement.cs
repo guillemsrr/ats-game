@@ -27,11 +27,11 @@ namespace Resume.Data.Requirements
             }
             else
             {
-                requiredYears = actualYears + Random.Range(1, 4);
+                requiredYears = actualYears + Random.Range(2, 4);
             }
 
             LocalizedString template = UtilsLibrary.RandomElement(_yearsDescriptions);
-            string description = template.GetLocalizedString(requiredYears.ToString());
+            string description = template.GetLocalizedStringAsync(requiredYears.ToString());
 
             if (string.IsNullOrWhiteSpace(description))
             {
@@ -44,7 +44,9 @@ namespace Resume.Data.Requirements
         private int CalculateTotalExperienceYears(ResumeData resumeData)
         {
             if (resumeData.WorkExperiences == null || resumeData.WorkExperiences.Length == 0)
+            {
                 return 0;
+            }
 
             int totalYears = 0;
 

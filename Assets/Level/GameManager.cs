@@ -24,6 +24,8 @@ namespace Level
 
         [SerializeField] private int _seed;
         [SerializeField] private bool _randomSeed = true;
+        
+        public int Seed => _seed;
 
         private void Awake()
         {

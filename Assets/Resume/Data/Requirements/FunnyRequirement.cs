@@ -15,7 +15,7 @@ namespace Resume.Data.Requirements
 
         public override bool CanBeRequired(ResumeData resumeData)
         {
-            return resumeData.SectionTypes.Contains(ResumeSectionType.Experience);
+            return resumeData.SectionTypes.Contains(ResumeSectionType.Experience) && resumeData.FunnyExperience != null;
         }
 
         public override string GetDescription(ResumeData resumeData, bool isMet)
