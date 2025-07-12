@@ -36,7 +36,7 @@ namespace Player
                 return;
             }
 
-            _pointer.TargetPointLocation.Button.ActivateButton();
+            _pointer.TargetPointLocation.Button.Click();
         }
 
         private void OnSelectReleased(InputAction.CallbackContext obj)
@@ -46,7 +46,7 @@ namespace Player
                 return;
             }
 
-            _pointer.TargetPointLocation.Button.DeactivateButton();
+            _pointer.TargetPointLocation.Button.UnClick();
         }
 
         bool CheckTarget()

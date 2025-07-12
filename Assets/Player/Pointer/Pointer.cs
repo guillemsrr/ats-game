@@ -9,9 +9,15 @@ namespace Player
     {
         [SerializeField] private float _smoothTime = 0.3f;
         [SerializeField] private float _rotationSpeed = 5f;
-        [SerializeField] private float _maximumDistance = 50f;
+        [SerializeField] private float _maximumPointDistance = 10f;
         [SerializeField] private float _scaleRatio = 0.25f;
-        [SerializeField] private float _scaleSpeed = 1f;
+        [SerializeField] private float _scaleSpeed = 3f;
+
+        [SerializeField] private MeshRenderer[] _meshRenderers;
+        [SerializeField] private Material _defaultMaterial;
+
+        [SerializeField] private Material _scanningMaterial;
+        [SerializeField] private Material _unscanningMaterial;
 
         private PointLocation[] _pointLocations;
         private Vector3 _velocity = Vector3.zero;
@@ -28,6 +34,8 @@ namespace Player
         private void Start()
         {
             _camera = Camera.main;
+
+            SetDefaultMaterial();
         }
 
         public void FindPointLocationsArround(Vector3 position)
@@ -39,7 +47,7 @@ namespace Player
             foreach (PointLocation location in allPointLocations)
             {
                 float distance = Vector3.Distance(position, location.transform.position);
-                if (distance <= _maximumDistance)
+                if (distance <= _maximumPointDistance)
                 {
                     filteredLocations.Add(location);
                 }
@@ -59,6 +67,11 @@ namespace Player
                 MoveToClosestPoint();
             }
 
+            UpdateScale();
+        }
+
+        private void UpdateScale()
+        {
             float scale = Mathf.Lerp(transform.localScale.x, _scaleTarget, Time.deltaTime * _scaleSpeed);
             transform.localScale = Vector3.one * scale;
         }
@@ -133,23 +146,39 @@ namespace Player
             return closestPointLocation;
         }
 
-        private Vector2 FindClosestPointOnLineSegment(Vector2 segmentStart, Vector2 segmentEnd, Vector2 point)
-        {
-            var segment = segmentEnd - segmentStart;
-            if (segment.sqrMagnitude < 1e-5)
-            {
-                return segmentStart;
-            }
-
-            var t = Vector2.Dot(point - segmentStart, segment) / segment.sqrMagnitude;
-            t = Mathf.Clamp01(t);
-
-            return segmentStart + t * segment;
-        }
-
         public void Scale(float cameraOrthographicSize)
         {
+            if (cameraOrthographicSize <= 0f)
+            {
+                _scaleTarget = 1f;
+                return;
+            }
+
             _scaleTarget = cameraOrthographicSize * _scaleRatio;
+        }
+
+        public void SetScanningMaterial()
+        {
+            foreach (MeshRenderer meshRenderer in _meshRenderers)
+            {
+                meshRenderer.material = _scanningMaterial;
+            }
+        }
+
+        public void SetDefaultMaterial()
+        {
+            foreach (MeshRenderer meshRenderer in _meshRenderers)
+            {
+                meshRenderer.material = _defaultMaterial;
+            }
+        }
+
+        public void SetUnscanningMaterial()
+        {
+            foreach (MeshRenderer meshRenderer in _meshRenderers)
+            {
+                meshRenderer.material = _unscanningMaterial;
+            }
         }
     }
 }

@@ -50,6 +50,11 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public float GetCameraZoom()
+    {
+        return _camera.orthographicSize;
+    }
+
     private void HandleCenterAttachment()
     {
         if (Center == null)

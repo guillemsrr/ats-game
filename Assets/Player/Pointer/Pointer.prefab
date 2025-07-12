@@ -182,7 +182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7105394899794334918}
   - component: {fileID: 9012341622345990336}
-  - component: {fileID: 8652665354429547771}
   - component: {fileID: 7911128411484114722}
   m_Layer: 0
   m_Name: Pointer
@@ -222,23 +221,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _smoothTime: 0.3
   _rotationSpeed: 5
-  _maximumDistance: 50
+  _maximumPointDistance: 15
   _scaleRatio: 0.25
-  _scaleSpeed: 1
---- !u!114 &8652665354429547771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6402245658007019526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8901ac1cd90f4bb9b46c37104bf4d806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pointer: {fileID: 9012341622345990336}
-  _inputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _scaleSpeed: 3
+  _meshRenderers:
+  - {fileID: 1608220447781672246}
+  - {fileID: 5433323196768392258}
+  _defaultMaterial: {fileID: 2100000, guid: c9321cd1d072cd04bb60d23dcf69c7f2, type: 2}
+  _scanningMaterial: {fileID: 2100000, guid: 7d27fb67d4c7bfa428f948727d6c14f5, type: 2}
+  _unscanningMaterial: {fileID: 2100000, guid: f3916cb7fa08d454cb2af2ff5e6ce208, type: 2}
 --- !u!114 &7911128411484114722
 MonoBehaviour:
   m_ObjectHideFlags: 0

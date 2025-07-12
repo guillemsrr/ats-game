@@ -57,7 +57,6 @@ namespace Player
 
         private void Update()
         {
-            //TODO: reuse input?
             _movementInput = _moveAction.ReadValue<Vector2>();
         }
 
