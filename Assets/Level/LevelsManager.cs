@@ -47,6 +47,7 @@ namespace Level
         [SerializeField] private ScanBattery _scanBattery;
 
         [SerializeField] private float _levelRelationBatteryDecrease = 0.01f;
+        [SerializeField] private GameObject _tutorialObject;
 
         private int _currentLevel;
 
@@ -65,6 +66,8 @@ namespace Level
             //TEST
             //_currentLevel = 5;
             //GenerateResume();
+            
+            _tutorialObject.SetActive(false);
 
             HideButtons();
         }
@@ -102,10 +105,18 @@ namespace Level
             _restartButton.Hide();
 
             _currentLevel = level;
+            if (_currentLevel == 1)
+            {
+                _progressionHandler.SetMaxProgression(3);
+            }
+            else
+            {
+                _progressionHandler.SetMaxProgression(5);
+            }
+
             _scanManager.Reset();
             _candidateAreaManager.Reset();
 
-            _progressionHandler.SetMaxProgression(5);
             _progressionHandler.UnlockLevel(level);
         }
 
@@ -195,7 +206,7 @@ namespace Level
 
             //if i wanted to show the full paper
             //HandleFitnessBase();
-            
+
             //if i want it directly:
             //ProceedNextCandidate();
         }
@@ -222,6 +233,15 @@ namespace Level
         private void OnProceedClick(ButtonHandler arg0)
         {
             _proceedButton.Hide();
+
+            if (_currentLevel == 1)
+            {
+                _tutorialObject.SetActive(true);
+            }
+            else
+            {
+                _tutorialObject.SetActive(false);
+            }
 
             ProceedNextCandidate();
         }

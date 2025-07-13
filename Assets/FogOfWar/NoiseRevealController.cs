@@ -54,7 +54,11 @@ namespace FogOfWar
                     if (noise > _threshold)
                     {
                         _revealHandler.RevealAtUV(new Vector2(u, v), PIZEL_SIZE);
+#if UNITY_WEBGL
+                        yield return null;
+#else
                         yield return new WaitForSeconds(_delayBetweenReveals);
+#endif
                     }
                 }
             }
@@ -85,7 +89,11 @@ namespace FogOfWar
                     float v = y / (float) (_gridResolution - 1);
 
                     _revealHandler.RevealAtUV(new Vector2(u, v), PIZEL_SIZE);
-                    yield return new WaitForSeconds(_delayBetweenReveals);
+#if UNITY_WEBGL
+                    yield return null;
+#else
+                        yield return new WaitForSeconds(_delayBetweenReveals);
+#endif
                 }
             }
         }
