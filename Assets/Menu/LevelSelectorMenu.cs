@@ -6,6 +6,7 @@ using Level;
 using Level.Progression;
 using Resume.Base;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Menu
 {
@@ -14,6 +15,7 @@ namespace Menu
         [SerializeField] private List<ButtonTextHandler> _levelsButtons;
 
         [SerializeField] private TextHandler _levelText;
+        [SerializeField] private LocalizedString LevelLocalizedString;
 
         private void Awake()
         {
@@ -60,7 +62,7 @@ namespace Menu
                 }
 
                 GameManager.Instance.PrepareLevel(level);
-                _levelText.SetText("Level: " + buttonTextHandler.Text);
+                _levelText.SetText(LevelLocalizedString, buttonTextHandler.Text);
 
                 DeactivateButtons();
                 return;

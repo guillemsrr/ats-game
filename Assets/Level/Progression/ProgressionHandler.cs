@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Menu;
 using Resume.Base;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Level.Progression
 {
@@ -14,6 +15,7 @@ namespace Level.Progression
         [SerializeField] private Transform _progressionContainer;
         [SerializeField] private ButtonLightHandler _progressionButtonModel;
         [SerializeField] private float _buttonSpace = 1f;
+        [SerializeField] private LocalizedString _candidateLocalizedString;
 
         private int _maxProgression;
         private int _currentProgression;
@@ -22,7 +24,7 @@ namespace Level.Progression
 
         private List<ButtonLightHandler> _progressionLights;
 
-        private const string LevelKey = "UnlockedLevel";
+        private const string LEVEL_KEY = "UnlockedLevel";
 
         public void SetMaxProgression(int maxProgression)
         {
@@ -54,7 +56,7 @@ namespace Level.Progression
         public void NextCandidate()
         {
             _currentCandidate++;
-            _candidateText.SetText("Candidate #" + (_currentCandidate));
+            _candidateText.SetText(_candidateLocalizedString,  "#" + _currentCandidate);
         }
 
         public ButtonLightHandler GetLastProgressionLight()
@@ -64,12 +66,12 @@ namespace Level.Progression
 
         public static int GetUnlockedLevel()
         {
-            return PlayerPrefs.GetInt(LevelKey);
+            return PlayerPrefs.GetInt(LEVEL_KEY);
         }
 
         public static void ResetProgress()
         {
-            PlayerPrefs.DeleteKey(LevelKey);
+            PlayerPrefs.DeleteKey(LEVEL_KEY);
         }
 
         public void UnlockLevel(int level)
@@ -77,7 +79,7 @@ namespace Level.Progression
             int current = GetUnlockedLevel();
             if (level > current)
             {
-                PlayerPrefs.SetInt(LevelKey, level);
+                PlayerPrefs.SetInt(LEVEL_KEY, level);
                 PlayerPrefs.Save();
             }
         }

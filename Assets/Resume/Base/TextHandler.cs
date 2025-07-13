@@ -19,6 +19,7 @@ namespace Resume.Base
 
         public float TextHeight => _text.rectTransform.rect.height;
 
+        //TODO: handle all through LocalizedText, without "GetLocalizedStringAsync"
         public void SetText(string key, string tableName = null)
         {
             if (string.IsNullOrEmpty(key))
@@ -50,7 +51,7 @@ namespace Resume.Base
 #endif
         }
 
-        public void SetText(LocalizedString localizedString)
+        public void SetText(LocalizedString localizedString, params object[] arguments)
         {
             if (localizedString.IsEmpty)
             {
@@ -60,6 +61,15 @@ namespace Resume.Base
                 return;
             }
 
+            if (arguments != null && arguments.Length > 0)
+            {
+                localizedString.Arguments = arguments;
+            }
+            else
+            {
+                localizedString.Arguments = null; // Clear any previous arguments
+            }
+            
             _localizeStringEvent.StringReference = localizedString;
             _localizeStringEvent.enabled = true;
             _localizeStringEvent.RefreshString();

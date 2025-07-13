@@ -1,12 +1,10 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Audio;
 using FogOfWar;
 using Level.Progression;
 using Menu;
-using NUnit.Framework.Constraints;
 using Questions;
 using Resume;
 using Resume.Data.Requirements;
@@ -24,6 +22,8 @@ namespace Level
             public int Level;
             public GameObject LevelObject;
         }
+
+        [SerializeField] private Transform _levelCameraCenter;
 
         [SerializeField] private List<LevelData> _levels;
         [SerializeField] private ResumeGenerator _resumeGenerator;
@@ -65,6 +65,17 @@ namespace Level
             //TEST
             //_currentLevel = 5;
             //GenerateResume();
+
+            HideButtons();
+        }
+
+        public void Focus()
+        {
+            GameManager.Instance.CameraController.Center = _levelCameraCenter;
+            GameManager.Instance.CameraController.SetTargetZoom(15f);
+            GameManager.Instance.PointerPlayer.FindPointLocationsArround(_levelCameraCenter.position);
+
+            AudioManager.Instance.PlayMenuMusic();
         }
 
         private void ReturnToMenu(ButtonHandler arg0)
@@ -72,25 +83,30 @@ namespace Level
             GameManager.Instance.GoBackToMenu();
             _levelSelectorMenu.ActivateButtons();
 
-            _returnToMenuHandler.Button.Deactivate();
-            _proceedButton.Button.Deactivate();
-            _restartButton.Button.Deactivate();
-            _fitCanditateButton.Button.Deactivate();
-            _unfitCanditateButton.Button.Deactivate();
+            HideButtons();
+        }
+
+        private void HideButtons()
+        {
+            _returnToMenuHandler.Hide();
+            _proceedButton.Hide();
+            _restartButton.Hide();
+            _fitCanditateButton.Hide();
+            _unfitCanditateButton.Hide();
         }
 
         public void StartLevel(int level)
         {
-            _returnToMenuHandler.Button.Activate();
+            _returnToMenuHandler.Show();
+            _proceedButton.Show();
+            _restartButton.Hide();
 
             _currentLevel = level;
             _scanManager.Reset();
+            _candidateAreaManager.Reset();
 
             _progressionHandler.SetMaxProgression(5);
             _progressionHandler.UnlockLevel(level);
-
-            _proceedButton.Show();
-            _restartButton.Hide();
         }
 
         private void GenerateLevel()
@@ -163,6 +179,7 @@ namespace Level
         {
             _paperHandler.SetCorrect();
             _proceedButton.Show();
+            _restartButton.Hide();
 
             _progressionHandler.NextProgression();
             _progressionHandler.NextCandidate();
@@ -170,15 +187,24 @@ namespace Level
 
         private void OnUnFitClick(ButtonHandler arg0)
         {
-            HandleFitnessBase();
-
             _progressionHandler.NextCandidate();
-            ProceedNextCandidate();
+
+            _proceedButton.Show();
+
+            _scanBattery.SetDecreaseRatio(0f);
+
+            //if i wanted to show the full paper
+            //HandleFitnessBase();
+            
+            //if i want it directly:
+            //ProceedNextCandidate();
         }
 
         private void HandleIncorrectLevel()
         {
             _restartButton.Show();
+            _proceedButton.Hide();
+
             _paperHandler.SetIncorrect();
 
             _progressionHandler.GetLastProgressionLight().SetIncorrect();

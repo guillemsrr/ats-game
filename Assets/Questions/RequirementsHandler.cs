@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Resume.Data.Requirements;
@@ -16,15 +17,17 @@ namespace Questions
 
         private bool _areAllMet;
 
+        private void Start()
+        {
+            Clear();
+        }
+
         public void SetRequirements(List<RequirementPoco> requirements, bool allMet)
         {
             _currentHeight = 0f;
             _areAllMet = allMet;
 
-            foreach (Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
+            Clear();
 
             StartCoroutine(AddRequirementCoroutine(requirements));
         }
@@ -57,6 +60,14 @@ namespace Questions
         public bool IsFit()
         {
             return _areAllMet;
+        }
+
+        public void Clear()
+        {
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 }

@@ -19,6 +19,5 @@ namespace Scanner
         {
             OnMouseExitAction?.Invoke();
         }
-
     }
 }

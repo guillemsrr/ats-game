@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using Audio;
+using FogOfWar;
 using Menu;
+using Questions;
 using Scanner;
 using UnityEngine;
 
@@ -11,11 +14,12 @@ namespace Level
     {
         [SerializeField] private ScanArea _scanArea;
         [SerializeField] private ScanManager _scanManager;
-        [SerializeField] private ButtonTextHandler _returnButton;
         [SerializeField] private ButtonTextHandler _fitCanditateButton;
         [SerializeField] private ButtonTextHandler _unfitCanditateButton;
 
         [SerializeField] private Transform _areaCenter;
+        [SerializeField] private RequirementsHandler _requirementsHandler;
+        [SerializeField] private RevealTransparencyHandler _revealTransparency;
 
         private void Awake()
         {
@@ -23,25 +27,25 @@ namespace Level
             _scanArea.OnMouseExitAction += OnOutOfRevealArea;
             _fitCanditateButton.Button.OnClick += OnFitClick;
             _unfitCanditateButton.Button.OnClick += OnUnFitClick;
-
-            _returnButton.Button.OnClick += Return;
         }
 
         private void Start()
         {
-            _returnButton.Hide();
+            _scanArea.gameObject.SetActive(false);
 
             DeactivateButtons();
         }
 
         private void OnUnFitClick(ButtonHandler arg0)
         {
-            
+            DeactivateButtons();
+            GameManager.Instance.GoToLevelArea();
         }
 
         private void OnFitClick(ButtonHandler arg0)
         {
-            _returnButton.Show();
+            DeactivateButtons();
+            GameManager.Instance.GoToLevelArea();
         }
 
         public void Initialize()
@@ -52,26 +56,32 @@ namespace Level
 
             AudioManager.Instance.PlayInGameMusic();
 
-            _returnButton.Show();
+            _scanArea.gameObject.SetActive(true);
+
             _fitCanditateButton.Show();
             _unfitCanditateButton.Show();
-
-            _scanManager.Activate();
         }
 
-        private void Return(ButtonHandler arg0)
+        public void Reset()
         {
-            GameManager.Instance.GoToLevelArea();
-            _returnButton.Hide();
+            _revealTransparency.ClearRenderTextureToBlack();
+            _scanManager.DeActivate();
+            _requirementsHandler.Clear();
 
             DeactivateButtons();
         }
 
+        private void OnReturn(ButtonHandler arg0)
+        {
+            GameManager.Instance.GoToLevelArea();
+
+            Reset();
+        }
+
         void DeactivateButtons()
         {
-            _returnButton.Button.Deactivate();
-            _fitCanditateButton.Button.Deactivate();
-            _unfitCanditateButton.Button.Deactivate();
+            _fitCanditateButton.Hide();
+            _unfitCanditateButton.Hide();
         }
 
         private void OnOutOfRevealArea()

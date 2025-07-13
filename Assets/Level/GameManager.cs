@@ -10,7 +10,6 @@ namespace Level
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private Transform _menuCameraCenter;
-        [SerializeField] private Transform _levelCameraCenter;
         [SerializeField] private CameraController _cameraController;
 
         [SerializeField] private NoiseRevealController _noiseRevealController;
@@ -24,7 +23,7 @@ namespace Level
 
         [SerializeField] private int _seed;
         [SerializeField] private bool _randomSeed = true;
-        
+
         public int Seed => _seed;
 
         private void Awake()
@@ -63,18 +62,13 @@ namespace Level
 
         public void PrepareLevel(int level)
         {
-            _levelsManager.StartLevel(level);
-
             GoToLevelArea();
+            _levelsManager.StartLevel(level);
         }
 
         public void GoToLevelArea()
         {
-            _cameraController.Center = _levelCameraCenter;
-            _cameraController.SetTargetZoom(15f);
-            _pointerPlayer.FindPointLocationsArround(_levelCameraCenter.position);
-
-            AudioManager.Instance.PlayMenuMusic();
+            _levelsManager.Focus();
         }
     }
 }
