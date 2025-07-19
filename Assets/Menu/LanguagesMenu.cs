@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameJamBase.UI.View;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -12,15 +13,15 @@ namespace Menu
 {
     public class LanguagesMenu : MonoBehaviour
     {
-        [SerializeField] private ButtonHandler _englishButton;
-        [SerializeField] private ButtonHandler _spanishButton;
-        [SerializeField] private ButtonHandler _catalanButton;
+        [SerializeField] private SpatialButtonView EnglishSpatialButton;
+        [SerializeField] private SpatialButtonView SpanishSpatialButton;
+        [SerializeField] private SpatialButtonView CatalanSpatialButton;
 
         private void Awake()
         {
-            _englishButton.OnClick += UpdateLanguage;
-            _spanishButton.OnClick += UpdateLanguage;
-            _catalanButton.OnClick += UpdateLanguage;
+            EnglishSpatialButton.OnClick += UpdateLanguage;
+            SpanishSpatialButton.OnClick += UpdateLanguage;
+            CatalanSpatialButton.OnClick += UpdateLanguage;
         }
 
         private void Start()
@@ -40,17 +41,17 @@ namespace Menu
             }
         }
 
-        private void UpdateLanguage(ButtonHandler arg0)
+        private void UpdateLanguage(SpatialButtonView arg0)
         {
-            if (arg0 == _englishButton)
+            if (arg0 == EnglishSpatialButton)
             {
                 LocaleSelected("en");
             }
-            else if (arg0 == _spanishButton)
+            else if (arg0 == SpanishSpatialButton)
             {
                 LocaleSelected("es");
             }
-            else if (arg0 == _catalanButton)
+            else if (arg0 == CatalanSpatialButton)
             {
                 LocaleSelected("ca");
             }

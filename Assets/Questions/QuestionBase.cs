@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
-using Resume.Base;
+using GameJamBase.UI.View;
+using Menu;
 using UnityEngine;
 
 namespace Questions

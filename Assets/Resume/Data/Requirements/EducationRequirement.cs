@@ -3,11 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameJamBase.Utils;
 using Resume.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Utils;
 
 namespace Resume.Data.Requirements
 {

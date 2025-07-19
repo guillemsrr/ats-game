@@ -30,6 +30,47 @@ MonoBehaviour:
     m_Localized: Nivel
     m_Metadata:
       m_Items: []
+  - m_Id: 1693577804300288
+    m_Localized: Requerimientos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1693939739181056
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1694084216176640
+    m_Localized: Encaja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1694284427083776
+    m_Localized: No encaja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1986579613401088
+    m_Localized: Proceder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2525913139691520
+    m_Localized: Candidato/a {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2526184649572352
+    m_Localized: Nivel {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2655553745371136
+    m_Localized: "Escanea con l\xE1ser usando el bot\xF3n izquierdo del rat\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2656139861606400
+    m_Localized: "Para decidir si el candidato encaja o no, aseg\xFArate de que cumple
+      con el requisito solicitado."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2657032921202688
+    m_Localized: "Usa la rueda del rat\xF3n para acercar o alejar la vista."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

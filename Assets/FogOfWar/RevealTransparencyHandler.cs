@@ -50,7 +50,7 @@ namespace FogOfWar
         {
             _lastRevealPoint = worldPos;
 
-            Ray ray = new Ray(worldPos + Vector3.up * 50f, Vector3.down);
+            Ray ray = new Ray(worldPos + Vector3.back * 50f, Vector3.forward);
             _lastRay = ray;
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _revealLayerMask))

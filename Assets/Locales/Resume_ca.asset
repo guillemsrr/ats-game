@@ -18,16 +18,207 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 15180460032
-    m_Localized: Catalunya
-    m_Metadata:
-      m_Items: []
   - m_Id: 250824847360
     m_Localized: Desenvolupador de software
     m_Metadata:
       m_Items: []
   - m_Id: 378981806080
     m_Localized: Desenvolupador en Unity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1129172272201728
+    m_Localized: "Desenvolupador web centrat en l'escalabilitat i el codi net, amb
+      experi\xE8ncia tant en frontend com en backend, i passi\xF3 per crear interf\xEDcies
+      intu\xEFtives."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161979279228928
+    m_Localized: Comunicatiu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175227353317376
+    m_Localized: "Emp\xE0tic"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175403052711936
+    m_Localized: Proactiu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175483897921536
+    m_Localized: "Curi\xF3s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175574436167680
+    m_Localized: Motivat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175730015485952
+    m_Localized: "Supervivent a \xFAltima hora"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175902569152512
+    m_Localized: "S\xFAper humil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181876612808704
+    m_Localized: "Desenvolupador full-stack adaptable amb una base s\xF2lida en estructures
+      de dades, comunicaci\xF3 efectiva i capacitat per resoldre problemes reals
+      amb solucions tecnol\xF2giques."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181925153488896
+    m_Localized: "Enginyer de rendiment especialitzat en Unity, optimitzant el renderitzat,
+      la f\xEDsica i l'arquitectura de sistemes en temps real."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182014601216000
+    m_Localized: "Arquitecte backend amb experi\xE8ncia en sistemes distribu\xEFts,
+      bases de dades escalables i APIs ben dissenyades, enfocat a mantenir serveis
+      fiables."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182041813860352
+    m_Localized: Faig jocs. De vegades funcionen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182077096345600
+    m_Localized: "S\xE9 C++. A vegades tamb\xE9 s\xE9 qu\xE8 estic fent."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182124517146624
+    m_Localized: Funcional. Quan em surt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182163679363072
+    m_Localized: " Desenvolupo en 3D, amb \xE0nima de pixelart."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182192313876480
+    m_Localized: "Escric codi amb prop\xF2sit, claredat i un profund respecte per
+      les claus d'obertura. Cada l\xEDnia reflecteix una decisi\xF3 conscient basada
+      en patrons s\xF2lids i respecte pels principis SOLID, excepte els dimarts."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182336778289152
+    m_Localized: "Vaig comen\xE7ar arreglant ordinadors al bar del meu tiet, i he
+      acabat automatitzant fluxos de treball al n\xFAvol. Pel cam\xED, vaig aprendre
+      a no trencar tot el sistema de producci\xF3 (gaireb\xE9 sempre)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182380814286848
+    m_Localized: Esperit de junior, sou de senior.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182457209339904
+    m_Localized: Full-stack developer, ploro igual pels bugs meus que pels dels altres.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182475085463552
+    m_Localized: "No copio de Stack Overflow, canalitzo la seva ess\xE8ncia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182520421695488
+    m_Localized: "Ning\xFA m'ha vist compilar, per\xF2 diuen que ho he fet."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182560598933504
+    m_Localized: Trio projectes per la qualitat dels seus conflictes de merge.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182596816748544
+    m_Localized: "S\xF3c un rom\xE0ntic del heap, per\xF2 el recollidor m'ent\xE9n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182642287198208
+    m_Localized: "Refactoritzo en p\xE0nic amb precisi\xF3 quir\xFArgica."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182706913034240
+    m_Localized: "Construeixo spaghetti, per\xF2 del bo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1184586300964864
+    m_Localized: Fer debug em compta com a cardio.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182746855391232
+    m_Localized: "Esborro primer, pregunto despr\xE9s. M\xE8tode infal\xB7lible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1391349075853312
+    m_Localized: "Es requereix alg\xFA que hagi estudiat {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427053285785600
+    m_Localized: "Experi\xE8ncia"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1426920452177920
+    m_Localized: Resum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427214867152896
+    m_Localized: Habilitats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427284568096768
+    m_Localized: "Educaci\xF3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1528430813036544
+    m_Localized: Ha d'haver tractat amb {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1529769752313856
+    m_Localized: El candidat o candidata ha d'haver aplicat per a {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530197395161088
+    m_Localized: La persona ha de saber {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530734391902208
+    m_Localized: "Cal tenir almenys {0} anys d'experi\xE8ncia laboral."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161876950794240
+    m_Localized: Pragmatic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1176197005099008
+    m_Localized: Chaos-Driven Development (CDD)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681297515528192
+    m_Localized: Una vegada vaig haver de refer un projecte ple de {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681447830994944
+    m_Localized: Durant anys vaig lluitar contra {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681533659037696
+    m_Localized: El meu codi estava embruixat pels {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681723614871552
+    m_Localized: ratolins rentadors espacials
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681790233001984
+    m_Localized: "assistents IA mal\xE8fics"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681902657126400
+    m_Localized: "tasses de caf\xE8 sensibles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681998719270912
+    m_Localized: becaris zombis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1682061382172672
+    m_Localized: "b\xE8sties de codi espagueti"
     m_Metadata:
       m_Items: []
   references:

@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textHandler: {fileID: 7208682373211246113}
-  _buttonHandler: {fileID: 4078202540455554030}
+  SpatialButtonView: {fileID: 4078202540455554030}
   _backgroundRenderer: {fileID: 1315992877954884200}
   _pointLocation: {fileID: 1989254157651962402}
 --- !u!1 &6585946127897210657
@@ -78,13 +78,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6585946127897210657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.82, y: 0, z: -0.12}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.82, y: 0, z: 0.28}
   m_LocalScale: {x: 6.5625, y: 1.0625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7710005100963029729}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4915610811239807869
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -436,19 +436,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -468,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3592170344336273620, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4053688326206681943, guid: 45b93621c3aa3954bb333d287d8afa2a, type: 3}
       propertyPath: Button

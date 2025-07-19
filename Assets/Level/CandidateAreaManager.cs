@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System;
-using Audio;
 using FogOfWar;
+using GameJamBase.Audio;
+using GameJamBase.UI.View;
 using Menu;
 using Questions;
 using Scanner;
@@ -25,8 +26,8 @@ namespace Level
         {
             _scanArea.OnMouseEnterAction += OnInRevealArea;
             _scanArea.OnMouseExitAction += OnOutOfRevealArea;
-            _fitCanditateButton.Button.OnClick += OnFitClick;
-            _unfitCanditateButton.Button.OnClick += OnUnFitClick;
+            _fitCanditateButton.SpatialButton.OnClick += OnFitClick;
+            _unfitCanditateButton.SpatialButton.OnClick += OnUnFitClick;
         }
 
         private void Start()
@@ -36,13 +37,13 @@ namespace Level
             DeactivateButtons();
         }
 
-        private void OnUnFitClick(ButtonHandler arg0)
+        private void OnUnFitClick(SpatialButtonView arg0)
         {
             DeactivateButtons();
             GameManager.Instance.GoToLevelArea();
         }
 
-        private void OnFitClick(ButtonHandler arg0)
+        private void OnFitClick(SpatialButtonView arg0)
         {
             DeactivateButtons();
             GameManager.Instance.GoToLevelArea();
@@ -71,7 +72,7 @@ namespace Level
             DeactivateButtons();
         }
 
-        private void OnReturn(ButtonHandler arg0)
+        private void OnReturn(SpatialButtonView arg0)
         {
             GameManager.Instance.GoToLevelArea();
 

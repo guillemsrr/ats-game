@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HUD
 {
-    public class HUDController : MonoBehaviour
+    public class SeedHandler : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _seedText;
 

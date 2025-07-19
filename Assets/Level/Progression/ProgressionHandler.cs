@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System.Collections.Generic;
+using GameJamBase.UI.View;
 using Menu;
-using Resume.Base;
 using UnityEngine;
 using UnityEngine.Localization;
 

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
-using Audio;
 using FogOfWar;
+using GameJamBase.Audio;
 using Player;
 using UnityEngine;
 

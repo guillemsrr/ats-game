@@ -5,14 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Resume.Base;
+using GameJamBase.UI.View;
+using GameJamBase.Utils;
+using Menu;
 using Resume.Data;
 using Resume.Data.Requirements;
 using Resume.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
-using Utils;
 using Random = UnityEngine.Random;
 
 namespace Resume
@@ -435,7 +436,7 @@ namespace Resume
         private TextHandler CreateTextInstance(Vector2 location)
         {
             TextHandler textInstance = Instantiate(_textHandlerPrefab, _resumeParent);
-            textInstance.transform.localPosition = new Vector3(location.x, 0, -location.y);
+            textInstance.transform.localPosition = new Vector3(location.x, -location.y, 0);
             textInstance.SetFont(_currentFont);
             textInstance.SetAlignment(_alignment);
 

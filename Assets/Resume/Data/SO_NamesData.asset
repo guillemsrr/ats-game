@@ -27,6 +27,8 @@ MonoBehaviour:
   - Benito
   - Dolores
   - M.
+  - Albert
+  - Francesc
   LastNames:
   - Serra
   - Puig del mont
@@ -42,3 +44,5 @@ MonoBehaviour:
   - Narbon
   - Dellano
   - Rajoy
+  - Camus
+  - "Maci\xE0"

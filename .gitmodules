@@ -1,0 +1,3 @@
+[submodule "Assets/GameJamBase"]
+	path = Assets/GameJamBase
+	url = https://github.com/guillemsrr/saw-a-game-jam.git

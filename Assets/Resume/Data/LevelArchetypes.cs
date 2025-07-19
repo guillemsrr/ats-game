@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System.Collections.Generic;
+using GameJamBase.Utils;
 using Resume.Data.Requirements;
 using UnityEngine;
-using Utils;
 
 namespace Resume.Data
 {

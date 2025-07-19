@@ -30,6 +30,47 @@ MonoBehaviour:
     m_Localized: Level
     m_Metadata:
       m_Items: []
+  - m_Id: 1986579613401088
+    m_Localized: Proceed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1693577804300288
+    m_Localized: Requirements
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1693939739181056
+    m_Localized: Return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1694084216176640
+    m_Localized: Fit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1694284427083776
+    m_Localized: Unfit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2525913139691520
+    m_Localized: Candidate {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2526184649572352
+    m_Localized: Level {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2655553745371136
+    m_Localized: Laser scan with the left mouse button.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2656139861606400
+    m_Localized: To decide if the candidate fits or not, make sure the requested
+      requirement is met.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2657032921202688
+    m_Localized: Use the mouse wheel to zoom in and out for a closer look.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using GameJamBase.UI.View;
 using Level;
 using Level.Progression;
-using Resume.Base;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -21,7 +21,7 @@ namespace Menu
         {
             foreach (var buttonHandler in _levelsButtons)
             {
-                buttonHandler.Button.OnClick += OnLevelSelected;
+                buttonHandler.SpatialButton.OnClick += OnLevelSelected;
             }
         }
 
@@ -50,13 +50,13 @@ namespace Menu
 
         }
 
-        private void OnLevelSelected(ButtonHandler button)
+        private void OnLevelSelected(SpatialButtonView spatialButton)
         {
             int level = 0;
             foreach (ButtonTextHandler buttonTextHandler in _levelsButtons)
             {
                 level++;
-                if (buttonTextHandler.Button != button)
+                if (buttonTextHandler.SpatialButton != spatialButton)
                 {
                     continue;
                 }
@@ -76,14 +76,14 @@ namespace Menu
                 return;
             }
 
-            OnLevelSelected(_levelsButtons[level].Button);
+            OnLevelSelected(_levelsButtons[level].SpatialButton);
         }
 
         public void DeactivateButtons()
         {
             foreach (ButtonTextHandler buttonTextHandler in _levelsButtons)
             {
-                buttonTextHandler.Button.Deactivate();
+                buttonTextHandler.SpatialButton.Deactivate();
             }
         }
 
@@ -91,7 +91,7 @@ namespace Menu
         {
             foreach (ButtonTextHandler buttonTextHandler in _levelsButtons)
             {
-                buttonTextHandler.Button.Activate();
+                buttonTextHandler.SpatialButton.Activate();
             }
 
             UpdateLevelButtonsUnlocked();

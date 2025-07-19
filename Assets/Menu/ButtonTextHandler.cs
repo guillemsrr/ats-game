@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System;
-using Resume.Base;
-using Unity.VisualScripting;
+using GameJamBase.UI.View;
 using UnityEngine;
 
 namespace Menu
@@ -10,24 +9,24 @@ namespace Menu
     public class ButtonTextHandler : MonoBehaviour
     {
         [SerializeField] private TextHandler _textHandler;
-        [SerializeField] private ButtonHandler _buttonHandler;
+        [SerializeField] private SpatialButtonView SpatialButtonView;
         [SerializeField] private MeshRenderer _backgroundRenderer;
         [SerializeField] private GameObject _pointLocation;
 
-        public ButtonHandler Button => _buttonHandler;
+        public SpatialButtonView SpatialButton => SpatialButtonView;
 
         public string Text => _textHandler.Text;
 
         private void Awake()
         {
-            _buttonHandler.OnHoverStart += OnHoverStart;
-            _buttonHandler.OnHoverEnd += OnHoverEnd;
-            _buttonHandler.OnClick += OnButtonClick;
+            SpatialButtonView.OnHoverStart += OnHoverStart;
+            SpatialButtonView.OnHoverEnd += OnHoverEnd;
+            SpatialButtonView.OnClick += OnButtonClick;
         }
 
         public void Show()
         {
-            Button.Activate();
+            SpatialButton.Activate();
             _pointLocation.SetActive(true);
             _textHandler.gameObject.SetActive(true);
             OnHoverEnd();
@@ -35,14 +34,14 @@ namespace Menu
 
         public void Hide()
         {
-            Button.Deactivate();
+            SpatialButton.Deactivate();
             _pointLocation.SetActive(false);
             _textHandler.gameObject.SetActive(false);
         }
 
         public void SetUnclickable()
         {
-            Button.Deactivate();
+            SpatialButton.Deactivate();
             _pointLocation.SetActive(false);
             _textHandler.SetColor(Color.gray);
         }
@@ -59,7 +58,7 @@ namespace Menu
             _backgroundRenderer.gameObject.SetActive(false);
         }
 
-        private void OnButtonClick(ButtonHandler arg0)
+        private void OnButtonClick(SpatialButtonView arg0)
         {
             OnHoverEnd();
         }

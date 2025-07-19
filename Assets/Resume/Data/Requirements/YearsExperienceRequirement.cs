@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System.Threading.Tasks;
+using GameJamBase.Utils;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Utils;
 
 namespace Resume.Data.Requirements
 {

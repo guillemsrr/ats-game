@@ -23,7 +23,7 @@ namespace Player
         private Vector3 _velocity = Vector3.zero;
         private Camera _camera;
 
-        private const float HEIGHT = 2f;
+        private float _pointerZ;
 
         private float _scaleTarget = 1;
 
@@ -34,6 +34,7 @@ namespace Player
         private void Start()
         {
             _camera = Camera.main;
+            _pointerZ = transform.position.z;
 
             SetDefaultMaterial();
         }
@@ -86,7 +87,7 @@ namespace Player
         {
             Vector3 mousePos = Input.mousePosition;
             Vector3 worldPoint = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            worldPoint.y = HEIGHT;
+            worldPoint.z = _pointerZ;
             transform.position = Vector3.SmoothDamp(transform.position, worldPoint, ref _velocity, _smoothTime);
 
             Vector3 direction = worldPoint - transform.position;

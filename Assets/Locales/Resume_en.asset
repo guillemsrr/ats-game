@@ -17,7 +17,218 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 2e572a1bc5f6b2847964f10d343728b3, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 1129172272201728
+    m_Localized: Software developer with 5+ years of experience building scalable
+      web applications and real-time systems, passionate about clean code and maintainability.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181925153488896
+    m_Localized: Proficient in Unity and C#, with a focus on performance optimization
+      and gameplay systems. Experienced in agile environments and rapid prototyping
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182014601216000
+    m_Localized: Senior backend developer with expertise in distributed systems,
+      cloud infrastructure, and service-oriented architectures.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182041813860352
+    m_Localized: Game programmer. I make things move and break. Sometimes both.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182077096345600
+    m_Localized: "C++ and Unreal. That\u2019s it. That\u2019s the resume."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182124517146624
+    m_Localized: I write code. Sometimes it works
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182163679363072
+    m_Localized: 3D dev. 2D soul.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181876612808704
+    m_Localized: Versatile engineer with a strong background in full-stack development
+      and a deep love for solving challenging technical problems.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182192313876480
+    m_Localized: Ever since I compiled my first 'Hello World', I knew I wanted to
+      spend my life inside the matrix of logic and brackets. My journey through the
+      software development world has taken me from rudimentary scripts to complex
+      multi-threaded systems, always with a keen eye on performance, usability, and
+      satisfying compiler errors before lunch.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182336778289152
+    m_Localized: "n my career, I\u2019ve worked on everything from enterprise software
+      with redundant security protocols to indie puzzle games about frogs. I take
+      pride in my ability to quickly adapt, refactor legacy code without crying (too
+      much), and mentor junior devs through the treacherous terrain of Unity serialization
+      bugs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182380814286848
+    m_Localized: Senior developer. Junior at heart. Mentally still debugging that
+      one issue from 2019.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182457209339904
+    m_Localized: Full-stack developer, which means I sometimes cry at both front
+      and backend bugs equally
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182475085463552
+    m_Localized: Built a successful game once. Now I just chase that feeling while
+      Stack Overflow does the actual work.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182520421695488
+    m_Localized: Wrote code that ran perfectly on the first try. Nobody witnessed
+      it. Will never happen again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182560598933504
+    m_Localized: Came for the coffee, stayed for the merge conflicts.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182596816748544
+    m_Localized: Enjoys long walks on the heap and garbage collection. Will optimize
+      for snacks.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182642287198208
+    m_Localized: Ten years of experience making things worse before making them better.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182706913034240
+    m_Localized: Architect of spaghetti code palaces. Champion of last-minute commits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182746855391232
+    m_Localized: "I once fixed a bug by deleting the entire function. Haven\u2019t
+      touched it since. It works."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1184586300964864
+    m_Localized: Debugging is my cardio. Refactoring is my therapy. Shipping is my
+      dream.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1391349075853312
+    m_Localized: Candidate must have studied a {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1426920452177920
+    m_Localized: Summary
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427053285785600
+    m_Localized: Experience
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427214867152896
+    m_Localized: Skills
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427284568096768
+    m_Localized: Education
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1528430813036544
+    m_Localized: Candidate must have dealt with {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1529769752313856
+    m_Localized: Candidate must be a {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530197395161088
+    m_Localized: Candidate must know {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530734391902208
+    m_Localized: Candidate must have at least {0} years of work experience.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 250824847360
+    m_Localized: Software Developer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 378981806080
+    m_Localized: Unity Developer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161876950794240
+    m_Localized: Pragmatic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161979279228928
+    m_Localized: Communicative
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175227353317376
+    m_Localized: Empathetic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175403052711936
+    m_Localized: Proactive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175483897921536
+    m_Localized: Curious
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175574436167680
+    m_Localized: Motivated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175730015485952
+    m_Localized: Extreme Deadline Survivor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175902569152512
+    m_Localized: Super-humble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1176197005099008
+    m_Localized: Chaos-Driven Development (CDD)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681297515528192
+    m_Localized: I once had to refactor a project full of {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681447830994944
+    m_Localized: For years I battled against {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681533659037696
+    m_Localized: My codebase was once haunted by {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681723614871552
+    m_Localized: space raccoons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681790233001984
+    m_Localized: evil AI assistants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681902657126400
+    m_Localized: sentient coffee mugs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681998719270912
+    m_Localized: zombie interns
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1682061382172672
+    m_Localized: spaghetti code beasts
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

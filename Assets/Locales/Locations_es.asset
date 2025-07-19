@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Locations_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 2457921d556358f408337224e4daed63, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 19946848256
+    m_Localized: "Catalu\xF1a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89207390208
+    m_Localized: "Espa\xF1a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8541069688832
+    m_Localized: EEUU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8743570685952
+    m_Localized: Nueva York
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9019140653056
+    m_Localized: California
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9158458654720
+    m_Localized: "Jap\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9384498085888
+    m_Localized: Toquio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9618624135168
+    m_Localized: Isla Nula
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9776308994048
+    m_Localized: Enmedio de la Nada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9965388218368
+    m_Localized: "Vac\xEDo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11154691506176
+    m_Localized: Nunca
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154755973120
+    m_Localized: Barcelona
+    m_Metadata:
+      m_Items: []
+  - m_Id: 237366984704
+    m_Localized: Madrid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9287488028672
+    m_Localized: "Kant\u014D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10150306693120
+    m_Localized: Shrugistan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10211967156224
+    m_Localized: Whatever State
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10264903467008
+    m_Localized: Mehville
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10453382905856
+    m_Localized: Vaporland
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10500157784064
+    m_Localized: Cloudzone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10537138962432
+    m_Localized: Crunchtown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10633830252544
+    m_Localized: Gamejam Nation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10667091083264
+    m_Localized: Overwork Hills
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

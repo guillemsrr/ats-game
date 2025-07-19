@@ -8,7 +8,7 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 
-namespace Resume.Base
+namespace Menu
 {
     public class TextHandler : MonoBehaviour
     {

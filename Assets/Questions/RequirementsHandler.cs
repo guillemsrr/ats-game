@@ -48,7 +48,7 @@ namespace Questions
             }
 
             Requirement requirement = Instantiate(_requirementModel, transform);
-            requirement.transform.localPosition = new Vector3(0, 0, _currentHeight);
+            requirement.transform.localPosition = new Vector3(0, _currentHeight, 0);
             requirement.Text.SetText(requirementData.Description);
 
             yield return requirement.Text.DelayedSizeUpdate();

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
 using System.Collections.Generic;
-using Audio;
 using FogOfWar;
+using GameJamBase.Audio;
+using GameJamBase.UI.View;
 using Level.Progression;
 using Menu;
 using Questions;
@@ -53,12 +54,12 @@ namespace Level
 
         private void Awake()
         {
-            _fitCanditateButton.Button.OnClick += OnFitClick;
-            _unfitCanditateButton.Button.OnClick += OnUnFitClick;
-            _proceedButton.Button.OnClick += OnProceedClick;
-            _restartButton.Button.OnClick += OnRestartClick;
+            _fitCanditateButton.SpatialButton.OnClick += OnFitClick;
+            _unfitCanditateButton.SpatialButton.OnClick += OnUnFitClick;
+            _proceedButton.SpatialButton.OnClick += OnProceedClick;
+            _restartButton.SpatialButton.OnClick += OnRestartClick;
 
-            _returnToMenuHandler.Button.OnClick += ReturnToMenu;
+            _returnToMenuHandler.SpatialButton.OnClick += ReturnToMenu;
         }
 
         private void Start()
@@ -81,7 +82,7 @@ namespace Level
             AudioManager.Instance.PlayMenuMusic();
         }
 
-        private void ReturnToMenu(ButtonHandler arg0)
+        private void ReturnToMenu(SpatialButtonView arg0)
         {
             GameManager.Instance.GoBackToMenu();
             _levelSelectorMenu.ActivateButtons();
@@ -166,7 +167,7 @@ namespace Level
             _resumeGenerator.GenerateVisualResume(resumeData);
         }
 
-        private void OnFitClick(ButtonHandler arg0)
+        private void OnFitClick(SpatialButtonView arg0)
         {
             HandleFitnessBase();
 
@@ -196,7 +197,7 @@ namespace Level
             _progressionHandler.NextCandidate();
         }
 
-        private void OnUnFitClick(ButtonHandler arg0)
+        private void OnUnFitClick(SpatialButtonView arg0)
         {
             _progressionHandler.NextCandidate();
 
@@ -230,7 +231,7 @@ namespace Level
             _scanBattery.SetDecreaseRatio(0f);
         }
 
-        private void OnProceedClick(ButtonHandler arg0)
+        private void OnProceedClick(SpatialButtonView arg0)
         {
             _proceedButton.Hide();
 
@@ -260,7 +261,7 @@ namespace Level
             _scanBattery.SetDecreaseRatio(ratio);
         }
 
-        private void OnRestartClick(ButtonHandler arg0)
+        private void OnRestartClick(SpatialButtonView arg0)
         {
             _restartButton.Hide();
 

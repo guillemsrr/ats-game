@@ -18,16 +18,208 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 15180460032
-    m_Localized: "Catalu\xF1a"
-    m_Metadata:
-      m_Items: []
   - m_Id: 250824847360
     m_Localized: Desarrollador de software
     m_Metadata:
       m_Items: []
   - m_Id: 378981806080
     m_Localized: Desarrollador en Unity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161979279228928
+    m_Localized: Comunicativo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175227353317376
+    m_Localized: "Emp\xE1tico"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175403052711936
+    m_Localized: Proactivo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175483897921536
+    m_Localized: Curioso
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175574436167680
+    m_Localized: Motivado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175730015485952
+    m_Localized: "Superviviente a \xFAltima hora"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1175902569152512
+    m_Localized: Super humilde
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1129172272201728
+    m_Localized: "Desarrollador web centrado en escalabilidad y c\xF3digo limpio,
+      con experiencia tanto en frontend como backend, y pasi\xF3n por crear interfaces
+      intuitivas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181876612808704
+    m_Localized: "Desarrollador full-stack adaptable con s\xF3lida base en estructuras
+      de datos, comunicaci\xF3n efectiva y capacidad para resolver problemas reales
+      con soluciones tecnol\xF3gicas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1181925153488896
+    m_Localized: "Ingeniero de rendimiento especializado en Unity, optimizando renderizado,
+      f\xEDsicas y arquitectura de sistemas en tiempo real."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182014601216000
+    m_Localized: "Arquitecto backend con experiencia en sistemas distribuidos, bases
+      de datos escalables y APIs bien dise\xF1adas, enfocado en mantener servicios
+      fiables."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182041813860352
+    m_Localized: Hago juegos. A veces funcionan.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182077096345600
+    m_Localized: "S\xE9 C++. A veces tambi\xE9n s\xE9 lo que estoy haciendo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182124517146624
+    m_Localized: Funcional. Cuando me sale.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182163679363072
+    m_Localized: Desarrollo en 3D, con alma de pixelart.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182192313876480
+    m_Localized: "Escribo c\xF3digo con prop\xF3sito, claridad y un respeto profundo
+      por las llaves de apertura. Cada l\xEDnea refleja una decisi\xF3n consciente
+      basada en patrones s\xF3lidos y respeto a los principios SOLID, excepto los
+      martes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182336778289152
+    m_Localized: "Empec\xE9 arreglando ordenadores en el bar de mi t\xEDo, acab\xE9
+      automatizando flujos de trabajo en la nube. Por el camino, aprend\xED a no
+      romper todo el sistema de producci\xF3n (casi siempre)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182380814286848
+    m_Localized: "Esp\xEDritu junior, salario de senior."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182457209339904
+    m_Localized: Full-stack developer, lloro igual por bugs propios que por ajenos.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182475085463552
+    m_Localized: No copio de Stack Overflow, canalizo su esencia.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182520421695488
+    m_Localized: Nadie me ha visto compilar, pero dicen que lo he hecho.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182560598933504
+    m_Localized: Elijo proyectos por la calidad de sus conflictos de merge.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182596816748544
+    m_Localized: "Soy rom\xE1ntico del heap, pero el recolector me entiende."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182642287198208
+    m_Localized: "Refactorizo en p\xE1nico con precisi\xF3n quir\xFArgica."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182706913034240
+    m_Localized: Construyo spaghetti, pero del bueno.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1184586300964864
+    m_Localized: Debuguear me cuenta como cardio.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1182746855391232
+    m_Localized: "Borro primero, pregunto despu\xE9s. M\xE9todo infalible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1391349075853312
+    m_Localized: Se requiere alguien que haya cursado {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427053285785600
+    m_Localized: Experiencia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1426920452177920
+    m_Localized: Resumen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427214867152896
+    m_Localized: Habilidades
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1427284568096768
+    m_Localized: "Educaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1528430813036544
+    m_Localized: Tiene que haber tratado con {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1529769752313856
+    m_Localized: El candidato o candidata tiene que haber aplicado para {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530197395161088
+    m_Localized: La persona tiene que saber {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1530734391902208
+    m_Localized: "Se requiere al menos {0} a\xF1os de experiencia laboral."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1161876950794240
+    m_Localized: Pragmatic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1176197005099008
+    m_Localized: Chaos-Driven Development (CDD)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681297515528192
+    m_Localized: Una vez tuve que rehacer un proyecto lleno de {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681447830994944
+    m_Localized: "Durante a\xF1os luch\xE9 contra {0}."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681533659037696
+    m_Localized: "Mi c\xF3digo estaba embrujado por los {0}."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681723614871552
+    m_Localized: mapaches espaciales
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681790233001984
+    m_Localized: asistentes IA malvados
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681902657126400
+    m_Localized: "tazas de caf\xE9 sensibles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1681998719270912
+    m_Localized: becarios zombis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1682061382172672
+    m_Localized: "bestias de c\xF3digo espagueti"
     m_Metadata:
       m_Items: []
   references:

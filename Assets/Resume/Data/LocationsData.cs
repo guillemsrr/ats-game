@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameJamBase.Utils;
 using UnityEngine;
 using UnityEngine.Localization;
-using Utils;
 
 namespace Resume.ScriptableObjects
 {

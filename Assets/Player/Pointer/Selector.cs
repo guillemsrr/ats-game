@@ -36,7 +36,7 @@ namespace Player
                 return;
             }
 
-            _pointer.TargetPointLocation.Button.Click();
+            _pointer.TargetPointLocation.SpatialButton.Click();
         }
 
         private void OnSelectReleased(InputAction.CallbackContext obj)
@@ -56,7 +56,7 @@ namespace Player
                 return false;
             }
 
-            if (!_pointer.TargetPointLocation.Button)
+            if (!_pointer.TargetPointLocation.SpatialButton)
             {
                 return false;
             }

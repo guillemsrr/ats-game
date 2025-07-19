@@ -1,5 +1,6 @@
 // Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using Player;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class CameraController : MonoBehaviour
 
     public Transform Center { get; set; }
 
-    private const float HEIGHT = 10f;
+    private float _cameraZ;
 
     private bool _isAttachedToCenter = true;
 
@@ -26,6 +27,11 @@ public class CameraController : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         _targetOrthographicSize = _camera.orthographicSize;
+    }
+
+    private void Start()
+    {
+        _cameraZ = transform.position.z;
     }
 
     private void Update()
@@ -74,7 +80,7 @@ public class CameraController : MonoBehaviour
         if (offset.magnitude < _minDistance)
         {
             transform.position = Vector3.Lerp(transform.position,
-                new Vector3(Center.position.x, HEIGHT, Center.position.z),
+                new Vector3(Center.position.x, Center.position.y, _cameraZ),
                 Time.deltaTime * _followSpeed);
             return;
         }
@@ -83,7 +89,7 @@ public class CameraController : MonoBehaviour
         float followStrength = 0.2f; // 0 = no movement, 1 = full mouse offset
 
         Vector3 targetPos = Center.position + offset * followStrength;
-        targetPos.y = HEIGHT;
+        targetPos.z = _cameraZ;
 
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * _followSpeed);
     }
@@ -109,7 +115,7 @@ public class CameraController : MonoBehaviour
         Vector3 mouseWorldPosition =
             _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,
                 _camera.nearClipPlane));
-        mouseWorldPosition.y = HEIGHT;
+        mouseWorldPosition.z = _cameraZ;
 
         transform.position = Vector3.Lerp(transform.position, mouseWorldPosition, Time.deltaTime * _followSpeed);
     }
