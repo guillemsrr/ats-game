@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Guillem Serra. All Rights Reserved.
 
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -16,6 +17,16 @@ namespace Scanner
         public UnityAction ScanEnd;
 
         private InputAction _scanAction;
+
+        private void OnEnable()
+        {
+            _inputActionAsset.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _inputActionAsset.Disable();
+        }
 
         private void Awake()
         {
